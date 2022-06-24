@@ -10,7 +10,7 @@ import path from "path";
 export default {
   input: "src/index.ts",
   output: {
-    file: path.resolve(__dirname, "dist/bundle.js"), // global: 弄个全局变量来接收 // cjs: module.exports // esm: export default // iife: ()() // umd: 兼容 amd + commonjs 不支持es6导入
+    file: path.resolve(__dirname, "dist/m4m-web3-bundle.umd.js"), // global: 弄个全局变量来接收 // cjs: module.exports // esm: export default // iife: ()() // umd: 兼容 amd + commonjs 不支持es6导入
     format: "umd",
     sourcemap: process.env.NODE_ENV !== "production", // ts中的sourcemap也得变为true
     name: "M4M",
