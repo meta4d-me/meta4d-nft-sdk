@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Example</title>
+  </head>
+
+  <body>
+    <p>Hello</p>
+  </body>
+  <script src="../dist/bundle.js"></script>
+  <script>
+    function mint() {
+      window.M4M.mintNFT(
+        "0x6600db8Fe26c096feB98C5a2855401591D644817",
+        "http://www.relation.services/static/home-rubik.545cdbc0.png",
+        {
+          description: "test",
+          name: "TestNft",
+          attributes: [],
+        }
+      ).then((res) => {
+        console.log(res);
+        var tokenId = res.tokenId;
+        window.M4M.getNFT(tokenId).then((res) => {
+          console.log(res);
+        });
+        window.M4M.transfer(
+          "0xBda6C92e43331924b69FEdeAcCfd6425a64859d4",
+          tokenId
+        ).then((res) => {
+          console.log(res);
+          window.M4M.getNFT(tokenId).then((res) => {
+            console.log(res);
+          });
+          window.M4M.getNFTList(
+            "0x6600db8Fe26c096feB98C5a2855401591D644817"
+          ).then((res) => {
+            for (var i = 0; i < res.length; ++i) {
+              var nft = res[i];
+              console.log(nft);
+              window.M4M.loadSource(nft.metadata.image).then((res) => {
+                console.log(res);
+              });
+              window.M4M.loadSource(nft.metadata.image, "base64").then(
+                (res) => {
+                  console.log(res);
+                }
+              );
+              window.M4M.loadSource(nft.metadata.image, "blob").then((res) => {
+                console.log(res);
+              });
+            }
+          });
+        });
+      });
+    }
+
+    function onAccountsChanged(accounts) {
+      console.log(accounts);
+    }
+
+    function onChainChanged(chainId) {
+      if (chainId === 80001) mint();
+    }
+
+    function onDisconnect(error) {
+      window.M4M.disconnect();
+    }
+
+    function onError(error) {
+      console.log(error);
+    }
+
+    window.M4M.connect({
+      onAccountsChanged,
+      onChainChanged,
+      onDisconnect,
+      onError,
+    }).then((res) => {
+      window.M4M.login().then((res) => {
+        console.log(res);
+        window.M4M.getInfo().then((res) => {
+          if (res.chainId !== 80001)
+            return window.M4M.switchNetwork().then((res) => {});
+          mint();
+        });
+      });
+    });
+  </script>
+</html>

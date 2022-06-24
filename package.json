@@ -7,15 +7,25 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "father-build",
-    "build:watch": "father-build --watch"
+    "build": "NODE_ENV=production rollup -c",
+    "dev": "rollup -cw"
   },
   "dependencies": {
     "ethers": "^5.6.8",
     "ipfs-http-client": "^56.0.3",
+    "process": "^0.11.10",
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
-    "father-build": "^1.22.3"
+    "@babel/core": "^7.18.5",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "rollup": "^2.75.7",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-typescript2": "^0.32.1",
+    "rollup-plugin-uglify": "^6.0.4",
+    "typescript": "^4.7.4"
   }
 }
