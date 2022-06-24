@@ -47,24 +47,21 @@ const getProvider = () => {
   if (!window.ethereum) {
     throw new Error("Provider not find");
   }
-  // if (provider) {
-  //   provider.off("accountsChanged", onAccountsChanged);
-  //   provider.off("chainChanged", onChainChanged);
-  //   provider.off("disconnect", onDisconnect);
-  //   provider.off("error", onError);
-  // }
+  if (provider) {
+    window.ethereum.removeListener("accountsChanged", onAccountsChanged);
+    window.ethereum.removeListener("chainChanged", onChainChanged);
+    window.ethereum.removeListener("disconnect", onDisconnect);
+    window.ethereum.removeListener("error", onError);
+  }
 
   // provider = new providers.Web3Provider(window.ethereum as unknown as providers.ExternalProvider);
   provider = new ethers.providers.Web3Provider(window.ethereum);
   if (!provider) throw new Error("Unable to create in page provider.");
 
-  provider.on(
-    "accountsChanged",
-    onAccountsChanged as (...args: unknown[]) => void
-  );
-  provider.on("chainChanged", onChainChanged as (...args: unknown[]) => void);
-  provider.off("disconnect", onDisconnect as (...args: unknown[]) => void);
-  provider.on("error", onError as (...args: unknown[]) => void);
+  window.ethereum.on("accountsChanged", onAccountsChanged);
+  window.ethereum.on("chainChanged", onChainChanged);
+  window.ethereum.on("disconnect", onDisconnect);
+  window.ethereum.on("error", onError);
   return provider;
 };
 

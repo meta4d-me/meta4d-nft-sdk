@@ -20,7 +20,6 @@ const _CONTRACT: any = {
   80001: "0xf093B9E2454a9BcFBC041F579646080C94EA3C21",
 };
 
-let globalCleanupHandler: any;
 export const connect = async (callback: {
   handleAccountsChanged?: any;
   handleChainChanged?: any;
@@ -29,19 +28,9 @@ export const connect = async (callback: {
 }) => {
   registerCallbacks(callback);
   const provider = getProvider();
-
   const address = await provider.send("eth_requestAccounts", []);
-  console.debug("[m4m-web3-api] connect web3 eth: ", address);
-  window.ethereum.on("accountsChanged", callback.handleAccountsChanged);
-  window.ethereum.on("chainChanged", callback.handleChainChanged);
-  window.ethereum.on("disconnect", callback.handleDisconnect);
-  window.ethereum.on("error", callback.handleError);
-  console.log(provider.listeners("accountsChanged"));
 };
-export const disconnect = () => {
-  globalCleanupHandler();
-  globalCleanupHandler = null;
-};
+export const disconnect = () => {};
 
 export const getInfo = async () => {
   const provider = getProvider();
