@@ -47,12 +47,12 @@ const getProvider = () => {
   if (!window.ethereum) {
     throw new Error("Provider not find");
   }
-  if (provider) {
-    provider.off("accountsChanged", onAccountsChanged);
-    provider.off("chainChanged", onChainChanged);
-    provider.off("disconnect", onDisconnect);
-    provider.off("error", onError);
-  }
+  // if (provider) {
+  //   provider.off("accountsChanged", onAccountsChanged);
+  //   provider.off("chainChanged", onChainChanged);
+  //   provider.off("disconnect", onDisconnect);
+  //   provider.off("error", onError);
+  // }
 
   // provider = new providers.Web3Provider(window.ethereum as unknown as providers.ExternalProvider);
   provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -65,7 +65,6 @@ const getProvider = () => {
   provider.on("chainChanged", onChainChanged as (...args: unknown[]) => void);
   provider.off("disconnect", onDisconnect as (...args: unknown[]) => void);
   provider.on("error", onError as (...args: unknown[]) => void);
-
   return provider;
 };
 

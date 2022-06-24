@@ -56,34 +56,36 @@
     }
 
     function onAccountsChanged(accounts) {
-      console.log(accounts);
+      console.log("onAccountsChanged callback: ", accounts);
     }
 
     function onChainChanged(chainId) {
+      console.log("onChainChanged callback: ", chainId);
       if (chainId === 80001) mint();
     }
 
     function onDisconnect(error) {
+      console.log("onDisconnect callback: ", error);
       window.M4M.disconnect();
     }
 
     function onError(error) {
+      console.log("onError callback: ", error);
       console.log(error);
     }
 
-    window.M4M.connect({
-      onAccountsChanged,
-      onChainChanged,
-      onDisconnect,
-      onError,
-    }).then((res) => {
-      window.M4M.login().then((res) => {
-        console.log(res);
-        window.M4M.getInfo().then((res) => {
-          if (res.chainId !== 80001)
-            return window.M4M.switchNetwork().then((res) => {});
-          mint();
-        });
+    window.M4M.login().then((res) => {
+      console.log(res);
+      window.M4M.connect({
+        handleAccountsChanged: onAccountsChanged,
+        handleChainChanged: onChainChanged,
+        handleDisconnect: onDisconnect,
+        handleError: onError,
+      });
+      window.M4M.getInfo().then((res) => {
+        if (res.chainId !== 80001)
+          return window.M4M.switchNetwork().then((res) => {});
+        // mint();
       });
     });
   </script>

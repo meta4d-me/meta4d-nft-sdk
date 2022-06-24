@@ -28,10 +28,15 @@ export const connect = async (callback: {
   handleError?: any;
 }) => {
   registerCallbacks(callback);
-
   const provider = getProvider();
+
   const address = await provider.send("eth_requestAccounts", []);
   console.debug("[m4m-web3-api] connect web3 eth: ", address);
+  window.ethereum.on("accountsChanged", callback.handleAccountsChanged);
+  window.ethereum.on("chainChanged", callback.handleChainChanged);
+  window.ethereum.on("disconnect", callback.handleDisconnect);
+  window.ethereum.on("error", callback.handleError);
+  console.log(provider.listeners("accountsChanged"));
 };
 export const disconnect = () => {
   globalCleanupHandler();

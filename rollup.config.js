@@ -62,11 +62,12 @@ export default {
       tsconfig: path.resolve(__dirname, "tsconfig.json"),
     }),
     process.env.NODE_ENV === "production" && uglify(),
-    serve({
-      port: 3000,
-      contentBase: "", // 表示起的服务是在根目录下
-      openPage: "/example/index.html", // 打开的是哪个文件
-      open: true, // 默认打开浏览器
-    }),
+    process.env.NODE_ENV !== "production" &&
+      serve({
+        port: 3000,
+        contentBase: "", // 表示起的服务是在根目录下
+        openPage: "/example/index.html", // 打开的是哪个文件
+        open: true, // 默认打开浏览器
+      }),
   ],
 };

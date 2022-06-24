@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "NODE_ENV=production rollup -c",
+    "build": "yarn run clean && NODE_ENV=production rollup -c",
     "dev": "rollup -cw"
   },
   "dependencies": {
