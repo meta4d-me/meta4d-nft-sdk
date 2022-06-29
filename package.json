@@ -6,7 +6,7 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "build": "yarn run clean && NODE_ENV=production rollup -c",
     "dev": "rollup -cw"
   },
