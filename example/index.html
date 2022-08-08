@@ -74,19 +74,25 @@
       console.log(error);
     }
 
-    window.M4M.login().then((res) => {
-      console.log(res);
-      window.M4M.connect({
-        handleAccountsChanged: onAccountsChanged,
-        handleChainChanged: onChainChanged,
-        handleDisconnect: onDisconnect,
-        handleError: onError,
-      });
-      window.M4M.getInfo().then((res) => {
-        if (res.chainId !== 80001)
-          return window.M4M.switchNetwork().then((res) => {});
-        // mint();
-      });
-    });
+    document.onreadystatechange = () => {
+      if (document.readyState == "complete") {
+        // window.BinanceChain is injected now
+
+        window.M4M.login().then((res) => {
+          console.log(res);
+          window.M4M.connect({
+            handleAccountsChanged: onAccountsChanged,
+            handleChainChanged: onChainChanged,
+            handleDisconnect: onDisconnect,
+            handleError: onError,
+          });
+          window.M4M.getInfo().then((res) => {
+            if (res.chainId !== 80001)
+              return window.M4M.switchNetwork().then((res) => {});
+            // mint();
+          });
+        });
+      }
+    };
   </script>
 </html>

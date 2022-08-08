@@ -1,4 +1,7 @@
-import getProvider, { registerCallbacks } from "./utils/getProvider";
+import getProvider, {
+  Connector_Types,
+  registerCallbacks,
+} from "./utils/getProvider";
 import { BigNumber, Contract } from "ethers";
 import {
   ERC721Enumerable,
@@ -10,6 +13,7 @@ import { create, urlSource } from "ipfs-http-client";
 import { concat } from "uint8arrays";
 import { Metadata } from "./types/metadata";
 
+export { Connector_Types } from "./utils/getProvider";
 const ipfs = create({
   host: "ipfs.infura.io",
   port: 5001,
@@ -27,13 +31,13 @@ export const connect = async (callback: {
   handleError?: any;
 }) => {
   registerCallbacks(callback);
-  const provider = getProvider();
+  const provider = await getProvider();
   const address = await provider.send("eth_requestAccounts", []);
 };
 export const disconnect = () => {};
 
 export const getInfo = async () => {
-  const provider = getProvider();
+  const provider = await getProvider();
   const signer = provider.getSigner();
   const address = await signer.getAddress();
   const chainId = await signer.getChainId();
@@ -42,7 +46,7 @@ export const getInfo = async () => {
 };
 
 export const switchNetwork = async (network?: string) => {
-  const provider = getProvider();
+  const provider = await getProvider();
   if (!network || network === "mumbai") {
     const chainId = `0x${Number(80001).toString(16)}`;
     await provider.send("wallet_addEthereumChain", [
@@ -72,8 +76,8 @@ const uuidv4 = () => {
   );
 };
 
-export const login = async () => {
-  const provider = getProvider();
+export const login = async (connectorType?: Connector_Types) => {
+  const provider = await getProvider(connectorType);
   const signer = provider.getSigner();
   const address = await signer.getAddress();
   const uuid = uuidv4();
@@ -95,7 +99,7 @@ export const mintNFT = async (
   imgUrl: string,
   metadata: Metadata
 ) => {
-  const provider = getProvider();
+  const provider = await getProvider();
   const { chainId } = await getInfo();
   const imgResult = await ipfs.add(urlSource(imgUrl));
   console.debug("[m4m-web3-api] ipfs uploaded: ", imgResult);
@@ -140,7 +144,7 @@ export const getNFT = async (
   const NFT = new Contract(
     _CONTRACT[chainId],
     SimpleM4mNFT__factory.abi,
-    getProvider()
+    await getProvider()
   ) as ERC721Enumerable;
   const tid = BigNumber.from(tokenId);
   const owner = await NFT.ownerOf(tid);
@@ -160,7 +164,7 @@ export const getNFTList = async (owner: string) => {
   const NFT = new Contract(
     _CONTRACT[chainId],
     ERC721Enumerable__factory.abi,
-    getProvider()
+    await getProvider()
   ) as ERC721Enumerable;
   const balance = await NFT.balanceOf(owner);
   const list = [];
@@ -200,7 +204,7 @@ export const loadSource = async (
 };
 
 export const transfer = async (to: string, tokenId: Number) => {
-  const provider = getProvider();
+  const provider = await getProvider();
   const { address, chainId } = await getInfo();
   const NFT = new Contract(
     _CONTRACT[chainId],

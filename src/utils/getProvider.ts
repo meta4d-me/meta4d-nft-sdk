@@ -1,5 +1,5 @@
 import { providers, ethers } from "ethers";
-
+import Providers from "../providers";
 let provider: providers.Web3Provider | null = null;
 
 let handleAccountsChanged: (...args: unknown[]) => void,
@@ -42,26 +42,39 @@ export const registerCallbacks = (callback: {
   handleError = callback.handleError;
 };
 
+export enum Connector_Types {
+  BinanceWallet = "BinanceWallet",
+  CoinbaseWallet = "CoinbaseWallet",
+  WalletConnect = "WalletConnect",
+  Injected = "Injected",
+}
+
 // todo Refactor for working without metamask.
-const getProvider = () => {
-  if (!window.ethereum) {
-    throw new Error("Provider not find");
+const getProvider = async (connectorType?: Connector_Types) => {
+  // if (!window.ethereum) {
+  //   throw new Error("Provider not find");
+  // }
+  // if (provider) {
+  //   window.ethereum.removeListener("accountsChanged", onAccountsChanged);
+  //   window.ethereum.removeListener("chainChanged", onChainChanged);
+  //   window.ethereum.removeListener("disconnect", onDisconnect);
+  //   window.ethereum.removeListener("error", onError);
+  // }
+  // // provider = new providers.Web3Provider(window.ethereum as unknown as providers.ExternalProvider);
+  // provider = new ethers.providers.Web3Provider(window.ethereum);
+  // if (!provider) throw new Error("Unable to create in page provider.");
+  // window.ethereum.on("accountsChanged", onAccountsChanged);
+  // window.ethereum.on("chainChanged", onChainChanged);
+  // window.ethereum.on("disconnect", onDisconnect);
+  // window.ethereum.on("error", onError);
+  // return provider;
+  let connector;
+  if (!connectorType || connectorType === Connector_Types.Injected) {
+    connector = await Providers.InjectedProvider();
+  } else if (connectorType === Connector_Types.BinanceWallet) {
+    connector = await Providers.BinanceWalletProvider();
   }
-  if (provider) {
-    window.ethereum.removeListener("accountsChanged", onAccountsChanged);
-    window.ethereum.removeListener("chainChanged", onChainChanged);
-    window.ethereum.removeListener("disconnect", onDisconnect);
-    window.ethereum.removeListener("error", onError);
-  }
-
-  // provider = new providers.Web3Provider(window.ethereum as unknown as providers.ExternalProvider);
-  provider = new ethers.providers.Web3Provider(window.ethereum);
-  if (!provider) throw new Error("Unable to create in page provider.");
-
-  window.ethereum.on("accountsChanged", onAccountsChanged);
-  window.ethereum.on("chainChanged", onChainChanged);
-  window.ethereum.on("disconnect", onDisconnect);
-  window.ethereum.on("error", onError);
+  provider = new ethers.providers.Web3Provider(connector);
   return provider;
 };
 
