@@ -73,6 +73,10 @@ const getProvider = async (connectorType?: Connector_Types) => {
     connector = await Providers.InjectedProvider();
   } else if (connectorType === Connector_Types.BinanceWallet) {
     connector = await Providers.BinanceWalletProvider();
+  } else if (connectorType === Connector_Types.WalletConnect) {
+    connector = await Providers.WalletConnectProvider({ chainId: 1 });
+  } else if (connectorType === Connector_Types.CoinbaseWallet) {
+    connector = await Providers.CoinbaseWalletProvider({ chainId: 1 });
   }
   provider = new ethers.providers.Web3Provider(connector);
   return provider;

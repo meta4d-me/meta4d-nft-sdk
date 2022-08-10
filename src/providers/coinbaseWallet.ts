@@ -6,7 +6,7 @@ export interface ICoinbaseWalletSdkConnectorOptions {
   appName?: string;
   appLogoUrl?: string;
   darkMode?: boolean;
-  network: string;
+  network?: string;
 }
 
 const ConnectToCoinbaseWalletSdk = (

@@ -22,7 +22,7 @@ const ConnectToWalletConnect = (opts: IWalletConnectConnectorOptions) => {
     if (opts) {
       bridge = opts.bridge || bridge;
       qrcode = typeof opts.qrcode !== "undefined" ? opts.qrcode : qrcode;
-      infuraId = opts.infuraId || "";
+      infuraId = opts.infuraId || "27e484dcd9e3efcfd25a83a78777cdf1";
       rpc = opts.rpc || undefined;
       chainId = opts.chainId || 1;
       qrcodeModalOptions = opts.qrcodeModalOptions || undefined;
