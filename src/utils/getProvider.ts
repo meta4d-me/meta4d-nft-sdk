@@ -9,7 +9,7 @@ let handleAccountsChanged: (...args: unknown[]) => void,
 
 async function onAccountsChanged(accounts: string[]) {
   console.debug("[util-metamask] onAccountsChanged: ", accounts);
-  getProvider();
+  // getProvider();
   if (handleAccountsChanged) handleAccountsChanged(accounts);
 }
 
@@ -17,7 +17,7 @@ async function onChainChanged(id: string) {
   // learn more: https://docs.metamask.io/guide/ethereum-provider.html#chain-ids and https://chainid.network/
   const chainId_ = Number.parseInt(id, 16);
   console.debug("[util-metamask] onChainIdChanged: ", chainId_);
-  getProvider();
+  // getProvider();
   if (handleChainChanged) handleChainChanged(chainId_);
 }
 async function onDisconnect(error: any) {
@@ -68,6 +68,9 @@ const getProvider = async (connectorType?: Connector_Types) => {
   // window.ethereum.on("disconnect", onDisconnect);
   // window.ethereum.on("error", onError);
   // return provider;
+  if (provider) {
+    return provider;
+  }
   let connector;
   if (!connectorType || connectorType === Connector_Types.Injected) {
     connector = await Providers.InjectedProvider();
@@ -79,6 +82,18 @@ const getProvider = async (connectorType?: Connector_Types) => {
     connector = await Providers.CoinbaseWalletProvider({ chainId: 1 });
   }
   provider = new ethers.providers.Web3Provider(connector);
+  if (provider && provider.provider) {
+    //@ts-ignore
+    provider.provider.on("accountsChanged", onAccountsChanged);
+    //@ts-ignore
+    provider.provider.on("chainChanged", onChainChanged);
+    //@ts-ignore
+    provider.provider.on("disconnect", onDisconnect);
+    //@ts-ignore
+    provider.provider.on("error", onError);
+  } else {
+    if (!provider) throw new Error("Unable to create in page provider.");
+  }
   return provider;
 };
 

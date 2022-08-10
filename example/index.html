@@ -7,7 +7,7 @@
   <body>
     <p>Hello</p>
   </body>
-  <script src="https://cdn.jsdelivr.net/npm/walletconnect-web3-provider@0.7.28/dist/walletconnect-web3-provider.min.js"></script>
+
   <script src="../dist/m4m-web3-bundle.umd.js"></script>
   <script>
     function mint() {
@@ -79,22 +79,21 @@
       if (document.readyState == "complete") {
         // window.BinanceChain is injected now
 
-        window.M4M.login(window.M4M.Connector_Types.WalletConnect).then(
-          (res) => {
-            console.log(res);
-            window.M4M.connect({
-              handleAccountsChanged: onAccountsChanged,
-              handleChainChanged: onChainChanged,
-              handleDisconnect: onDisconnect,
-              handleError: onError,
-            });
-            window.M4M.getInfo().then((res) => {
-              if (res.chainId !== 80001)
-                return window.M4M.switchNetwork().then((res) => {});
-              // mint();
-            });
-          }
-        );
+        // window.M4M.login(window.M4M.Connector_Types.WalletConnect).then(
+        window.M4M.login(window.M4M.Connector_Types.Injected).then((res) => {
+          console.log(res);
+          window.M4M.connect({
+            handleAccountsChanged: onAccountsChanged,
+            handleChainChanged: onChainChanged,
+            handleDisconnect: onDisconnect,
+            handleError: onError,
+          });
+          window.M4M.getInfo().then((res) => {
+            if (res.chainId !== 80001)
+              return window.M4M.switchNetwork().then((res) => {});
+            // mint();
+          });
+        });
       }
     };
   </script>
