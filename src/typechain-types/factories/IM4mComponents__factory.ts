@@ -339,7 +339,7 @@ const _abi = [
     name: "registry",
     outputs: [
       {
-        internalType: "contract IM4mNFTRegistry",
+        internalType: "address",
         name: "",
         type: "address",
       },

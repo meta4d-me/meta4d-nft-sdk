@@ -16,51 +16,27 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface M4mDaoInterface extends utils.Interface {
-  contractName: "M4mDao";
+export interface OwnableInterface extends utils.Interface {
+  contractName: "Ownable";
   functions: {
-    "convertibleList(address)": FunctionFragment;
-    "initialize()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "setConvertibleList(address,bool)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "convertibleList",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setConvertibleList",
-    values: [string, boolean]
-  ): string;
-  encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "convertibleList",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setConvertibleList",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -70,11 +46,9 @@ export interface M4mDaoInterface extends utils.Interface {
 
   events: {
     "OwnershipTransferred(address,address)": EventFragment;
-    "SetConvertibleList(address,bool)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "SetConvertibleList"): EventFragment;
 }
 
 export type OwnershipTransferredEvent = TypedEvent<
@@ -85,21 +59,13 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export type SetConvertibleListEvent = TypedEvent<
-  [string, boolean],
-  { nft: string; enabled: boolean }
->;
-
-export type SetConvertibleListEventFilter =
-  TypedEventFilter<SetConvertibleListEvent>;
-
-export interface M4mDao extends BaseContract {
-  contractName: "M4mDao";
+export interface Ownable extends BaseContract {
+  contractName: "Ownable";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: M4mDaoInterface;
+  interface: OwnableInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -121,24 +87,9 @@ export interface M4mDao extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    convertibleList(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    initialize(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setConvertibleList(
-      nft: string,
-      enabled: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -148,21 +99,9 @@ export interface M4mDao extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  convertibleList(arg0: string, overrides?: CallOverrides): Promise<boolean>;
-
-  initialize(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   owner(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setConvertibleList(
-    nft: string,
-    enabled: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -172,19 +111,9 @@ export interface M4mDao extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    convertibleList(arg0: string, overrides?: CallOverrides): Promise<boolean>;
-
-    initialize(overrides?: CallOverrides): Promise<void>;
-
     owner(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
-
-    setConvertibleList(
-      nft: string,
-      enabled: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     transferOwnership(
       newOwner: string,
@@ -201,36 +130,12 @@ export interface M4mDao extends BaseContract {
       previousOwner?: string | null,
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
-
-    "SetConvertibleList(address,bool)"(
-      nft?: null,
-      enabled?: null
-    ): SetConvertibleListEventFilter;
-    SetConvertibleList(
-      nft?: null,
-      enabled?: null
-    ): SetConvertibleListEventFilter;
   };
 
   estimateGas: {
-    convertibleList(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    initialize(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setConvertibleList(
-      nft: string,
-      enabled: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -241,24 +146,9 @@ export interface M4mDao extends BaseContract {
   };
 
   populateTransaction: {
-    convertibleList(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    initialize(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setConvertibleList(
-      nft: string,
-      enabled: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

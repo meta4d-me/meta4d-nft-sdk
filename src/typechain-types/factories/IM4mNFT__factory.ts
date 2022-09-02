@@ -133,19 +133,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "dao",
-    outputs: [
-      {
-        internalType: "contract IM4mDAO",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -195,82 +182,14 @@ const _abi = [
         name: "to",
         type: "address",
       },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
     ],
     name: "mint",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "num",
-        type: "uint256",
-      },
-    ],
-    name: "mintBatch",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address[]",
-        name: "to",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256",
-        name: "num",
-        type: "uint256",
-      },
-    ],
-    name: "mintBatch",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-    ],
-    name: "mintByRegistry",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -298,7 +217,7 @@ const _abi = [
     name: "registry",
     outputs: [
       {
-        internalType: "contract IM4mNFTRegistry",
+        internalType: "address",
         name: "",
         type: "address",
       },

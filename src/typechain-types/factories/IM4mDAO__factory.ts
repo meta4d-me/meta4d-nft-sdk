@@ -10,58 +10,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "m4mTokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        internalType: "contract IERC721",
-        name: "nft",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "originalTokenId",
-        type: "uint256",
-      },
-    ],
-    name: "convertRecord",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "contract IERC721",
-        name: "origin",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "convertToM4mNFT",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "contract IERC721",
         name: "nft",
         type: "address",
@@ -76,42 +24,6 @@ const _abi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "m4mNFT",
-    outputs: [
-      {
-        internalType: "contract IM4mNFT",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "m4mTokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "contract IERC721",
-        name: "origin",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "redeem",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

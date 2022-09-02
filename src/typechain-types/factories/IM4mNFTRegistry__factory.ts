@@ -13,6 +13,11 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
         internalType: "uint256[]",
         name: "componentIds",
         type: "uint256[]",
@@ -22,11 +27,6 @@ const _abi = [
         name: "amounts",
         type: "uint256[]",
       },
-      {
-        internalType: "bytes",
-        name: "sig",
-        type: "bytes",
-      },
     ],
     name: "assembleM4mNFT",
     outputs: [],
@@ -34,7 +34,25 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "components",
+    outputs: [
+      {
+        internalType: "contract IM4mComponents",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
+      {
+        internalType: "contract IERC721",
+        name: "original",
+        type: "address",
+      },
       {
         internalType: "uint256",
         name: "tokenId",
@@ -56,7 +74,115 @@ const _abi = [
         type: "bytes",
       },
     ],
-    name: "assembleOriginalM4mNFT",
+    name: "convertNFT",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "dao",
+    outputs: [
+      {
+        internalType: "contract IM4mDAO",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "componentId",
+        type: "uint256",
+      },
+    ],
+    name: "getTokenComponentAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256[]",
+        name: "componentIds",
+        type: "uint256[]",
+      },
+    ],
+    name: "getTokenComponentAmounts",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getTokenStatus",
+    outputs: [
+      {
+        internalType: "enum IM4mNFTRegistry.TokenStatus",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+      {
+        internalType: "contract IERC721",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "lock",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -66,7 +192,7 @@ const _abi = [
     name: "m4mNFT",
     outputs: [
       {
-        internalType: "address",
+        internalType: "contract IM4mNFT",
         name: "",
         type: "address",
       },
@@ -91,6 +217,29 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "m4mTokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256[]",
+        name: "componentIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "amounts",
+        type: "uint256[]",
+      },
+    ],
+    name: "redeem",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "tokenId",
         type: "uint256",
       },
@@ -104,13 +253,21 @@ const _abi = [
         name: "amounts",
         type: "uint256[]",
       },
-      {
-        internalType: "bytes",
-        name: "sig",
-        type: "bytes",
-      },
     ],
     name: "splitM4mNFT",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "unlock",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

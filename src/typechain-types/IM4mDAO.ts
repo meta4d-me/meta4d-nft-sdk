@@ -4,7 +4,6 @@
 import {
   BaseContract,
   BigNumber,
-  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -20,30 +19,13 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface IM4mDAOInterface extends utils.Interface {
   contractName: "IM4mDAO";
   functions: {
-    "convertRecord(uint256,address,address,uint256)": FunctionFragment;
-    "convertToM4mNFT(address,uint256)": FunctionFragment;
     "convertibleList(address)": FunctionFragment;
-    "m4mNFT()": FunctionFragment;
-    "redeem(uint256,address,uint256)": FunctionFragment;
     "setConvertibleList(address,bool)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "convertRecord",
-    values: [BigNumberish, string, string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "convertToM4mNFT",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "convertibleList",
     values: [string]
-  ): string;
-  encodeFunctionData(functionFragment: "m4mNFT", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "redeem",
-    values: [BigNumberish, string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setConvertibleList",
@@ -51,19 +33,9 @@ export interface IM4mDAOInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "convertRecord",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "convertToM4mNFT",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "convertibleList",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "m4mNFT", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "redeem", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setConvertibleList",
     data: BytesLike
@@ -100,30 +72,7 @@ export interface IM4mDAO extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    convertRecord(
-      m4mTokenId: BigNumberish,
-      user: string,
-      nft: string,
-      originalTokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    convertToM4mNFT(
-      origin: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     convertibleList(nft: string, overrides?: CallOverrides): Promise<[boolean]>;
-
-    m4mNFT(overrides?: CallOverrides): Promise<[string]>;
-
-    redeem(
-      m4mTokenId: BigNumberish,
-      origin: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     setConvertibleList(
       nft: string,
@@ -132,30 +81,7 @@ export interface IM4mDAO extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  convertRecord(
-    m4mTokenId: BigNumberish,
-    user: string,
-    nft: string,
-    originalTokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  convertToM4mNFT(
-    origin: string,
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   convertibleList(nft: string, overrides?: CallOverrides): Promise<boolean>;
-
-  m4mNFT(overrides?: CallOverrides): Promise<string>;
-
-  redeem(
-    m4mTokenId: BigNumberish,
-    origin: string,
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   setConvertibleList(
     nft: string,
@@ -164,30 +90,7 @@ export interface IM4mDAO extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    convertRecord(
-      m4mTokenId: BigNumberish,
-      user: string,
-      nft: string,
-      originalTokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    convertToM4mNFT(
-      origin: string,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     convertibleList(nft: string, overrides?: CallOverrides): Promise<boolean>;
-
-    m4mNFT(overrides?: CallOverrides): Promise<string>;
-
-    redeem(
-      m4mTokenId: BigNumberish,
-      origin: string,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     setConvertibleList(
       nft: string,
@@ -199,30 +102,7 @@ export interface IM4mDAO extends BaseContract {
   filters: {};
 
   estimateGas: {
-    convertRecord(
-      m4mTokenId: BigNumberish,
-      user: string,
-      nft: string,
-      originalTokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    convertToM4mNFT(
-      origin: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     convertibleList(nft: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    m4mNFT(overrides?: CallOverrides): Promise<BigNumber>;
-
-    redeem(
-      m4mTokenId: BigNumberish,
-      origin: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
 
     setConvertibleList(
       nft: string,
@@ -232,32 +112,9 @@ export interface IM4mDAO extends BaseContract {
   };
 
   populateTransaction: {
-    convertRecord(
-      m4mTokenId: BigNumberish,
-      user: string,
-      nft: string,
-      originalTokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    convertToM4mNFT(
-      origin: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     convertibleList(
       nft: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    m4mNFT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    redeem(
-      m4mTokenId: BigNumberish,
-      origin: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setConvertibleList(

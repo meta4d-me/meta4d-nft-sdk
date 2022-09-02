@@ -22,13 +22,15 @@ export interface M4mComponentInterface extends utils.Interface {
   functions: {
     "balanceOf(address,uint256)": FunctionFragment;
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
+    "baseURI()": FunctionFragment;
     "burn(address,uint256,uint256)": FunctionFragment;
     "burnBatch(address,uint256[],uint256[])": FunctionFragment;
-    "initialize(string,address)": FunctionFragment;
+    "initialize(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,uint256,uint256)": FunctionFragment;
     "mintBatch(address,uint256[],uint256[])": FunctionFragment;
     "name(uint256)": FunctionFragment;
+    "operator()": FunctionFragment;
     "owner()": FunctionFragment;
     "prepareNewToken(uint256,string,string)": FunctionFragment;
     "registry()": FunctionFragment;
@@ -36,6 +38,8 @@ export interface M4mComponentInterface extends utils.Interface {
     "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setBaseURI(string)": FunctionFragment;
+    "setOperator(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol(uint256)": FunctionFragment;
     "totalSupply(uint256)": FunctionFragment;
@@ -51,6 +55,7 @@ export interface M4mComponentInterface extends utils.Interface {
     functionFragment: "balanceOfBatch",
     values: [string[], BigNumberish[]]
   ): string;
+  encodeFunctionData(functionFragment: "baseURI", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "burn",
     values: [string, BigNumberish, BigNumberish]
@@ -59,10 +64,7 @@ export interface M4mComponentInterface extends utils.Interface {
     functionFragment: "burnBatch",
     values: [string, BigNumberish[], BigNumberish[]]
   ): string;
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "initialize", values: [string]): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
@@ -76,6 +78,7 @@ export interface M4mComponentInterface extends utils.Interface {
     values: [string, BigNumberish[], BigNumberish[]]
   ): string;
   encodeFunctionData(functionFragment: "name", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "operator", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "prepareNewToken",
@@ -98,6 +101,8 @@ export interface M4mComponentInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
+  encodeFunctionData(functionFragment: "setBaseURI", values: [string]): string;
+  encodeFunctionData(functionFragment: "setOperator", values: [string]): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
@@ -121,6 +126,7 @@ export interface M4mComponentInterface extends utils.Interface {
     functionFragment: "balanceOfBatch",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "baseURI", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnBatch", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
@@ -131,6 +137,7 @@ export interface M4mComponentInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintBatch", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "operator", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "prepareNewToken",
@@ -153,6 +160,11 @@ export interface M4mComponentInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setOperator",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -171,6 +183,8 @@ export interface M4mComponentInterface extends utils.Interface {
   events: {
     "ApprovalForAll(address,address,bool)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "PreparedComponent(uint256,string,string)": EventFragment;
+    "SetOperator(address)": EventFragment;
     "TransferBatch(address,address,address,uint256[],uint256[])": EventFragment;
     "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
     "URI(string,uint256)": EventFragment;
@@ -178,6 +192,8 @@ export interface M4mComponentInterface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PreparedComponent"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "SetOperator"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferBatch"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferSingle"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "URI"): EventFragment;
@@ -197,6 +213,18 @@ export type OwnershipTransferredEvent = TypedEvent<
 
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
+
+export type PreparedComponentEvent = TypedEvent<
+  [BigNumber, string, string],
+  { tokenId: BigNumber; _name: string; _symbol: string }
+>;
+
+export type PreparedComponentEventFilter =
+  TypedEventFilter<PreparedComponentEvent>;
+
+export type SetOperatorEvent = TypedEvent<[string], { newOperator: string }>;
+
+export type SetOperatorEventFilter = TypedEventFilter<SetOperatorEvent>;
 
 export type TransferBatchEvent = TypedEvent<
   [string, string, string, BigNumber[], BigNumber[]],
@@ -271,6 +299,8 @@ export interface M4mComponent extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
 
+    baseURI(overrides?: CallOverrides): Promise<[string]>;
+
     burn(
       account: string,
       id: BigNumberish,
@@ -286,7 +316,6 @@ export interface M4mComponent extends BaseContract {
     ): Promise<ContractTransaction>;
 
     initialize(
-      uri: string,
       _registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -312,6 +341,8 @@ export interface M4mComponent extends BaseContract {
     ): Promise<ContractTransaction>;
 
     name(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+
+    operator(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -352,6 +383,16 @@ export interface M4mComponent extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setBaseURI(
+      base: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setOperator(
+      newOperator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -369,7 +410,7 @@ export interface M4mComponent extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+    uri(id: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
   };
 
   balanceOf(
@@ -383,6 +424,8 @@ export interface M4mComponent extends BaseContract {
     ids: BigNumberish[],
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
+
+  baseURI(overrides?: CallOverrides): Promise<string>;
 
   burn(
     account: string,
@@ -399,7 +442,6 @@ export interface M4mComponent extends BaseContract {
   ): Promise<ContractTransaction>;
 
   initialize(
-    uri: string,
     _registry: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -425,6 +467,8 @@ export interface M4mComponent extends BaseContract {
   ): Promise<ContractTransaction>;
 
   name(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  operator(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -465,6 +509,16 @@ export interface M4mComponent extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setBaseURI(
+    base: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setOperator(
+    newOperator: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -482,7 +536,7 @@ export interface M4mComponent extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+  uri(id: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     balanceOf(
@@ -496,6 +550,8 @@ export interface M4mComponent extends BaseContract {
       ids: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
+
+    baseURI(overrides?: CallOverrides): Promise<string>;
 
     burn(
       account: string,
@@ -511,11 +567,7 @@ export interface M4mComponent extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    initialize(
-      uri: string,
-      _registry: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    initialize(_registry: string, overrides?: CallOverrides): Promise<void>;
 
     isApprovedForAll(
       account: string,
@@ -538,6 +590,8 @@ export interface M4mComponent extends BaseContract {
     ): Promise<void>;
 
     name(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    operator(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -576,6 +630,10 @@ export interface M4mComponent extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setBaseURI(base: string, overrides?: CallOverrides): Promise<void>;
+
+    setOperator(newOperator: string, overrides?: CallOverrides): Promise<void>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -593,7 +651,7 @@ export interface M4mComponent extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+    uri(id: BigNumberish, overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -616,6 +674,20 @@ export interface M4mComponent extends BaseContract {
       previousOwner?: string | null,
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
+
+    "PreparedComponent(uint256,string,string)"(
+      tokenId?: null,
+      _name?: null,
+      _symbol?: null
+    ): PreparedComponentEventFilter;
+    PreparedComponent(
+      tokenId?: null,
+      _name?: null,
+      _symbol?: null
+    ): PreparedComponentEventFilter;
+
+    "SetOperator(address)"(newOperator?: null): SetOperatorEventFilter;
+    SetOperator(newOperator?: null): SetOperatorEventFilter;
 
     "TransferBatch(address,address,address,uint256[],uint256[])"(
       operator?: string | null,
@@ -667,6 +739,8 @@ export interface M4mComponent extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    baseURI(overrides?: CallOverrides): Promise<BigNumber>;
+
     burn(
       account: string,
       id: BigNumberish,
@@ -682,7 +756,6 @@ export interface M4mComponent extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      uri: string,
       _registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -708,6 +781,8 @@ export interface M4mComponent extends BaseContract {
     ): Promise<BigNumber>;
 
     name(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    operator(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -748,6 +823,16 @@ export interface M4mComponent extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setBaseURI(
+      base: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setOperator(
+      newOperator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -765,7 +850,7 @@ export interface M4mComponent extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+    uri(id: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -780,6 +865,8 @@ export interface M4mComponent extends BaseContract {
       ids: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    baseURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     burn(
       account: string,
@@ -796,7 +883,6 @@ export interface M4mComponent extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      uri: string,
       _registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -825,6 +911,8 @@ export interface M4mComponent extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    operator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -865,6 +953,16 @@ export interface M4mComponent extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setBaseURI(
+      base: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setOperator(
+      newOperator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -886,7 +984,7 @@ export interface M4mComponent extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     uri(
-      arg0: BigNumberish,
+      id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
