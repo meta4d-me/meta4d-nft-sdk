@@ -12,7 +12,7 @@ import {
 } from "./typechain-types";
 import { Contract } from "ethers";
 import { ethers } from "ethers";
-import { RequestEthereumAccountsResponse } from "@coinbase/wallet-sdk/dist/relay/Web3Response";
+import { _CONTRACT, META4D_NFT_BACKEND_HOST } from "./utils/constants";
 /**
  * Register new component NFT
  */
@@ -34,7 +34,7 @@ export const prepareComponent = async (param: IPrepareComponentParams) => {
   const provider = await getProvider();
   const signer = provider.getSigner();
   const sig = await signer.signMessage(param.component_id);
-  const url = `${process.env.META4D_NFT_BACKEND_HOST}/api/v1/component/generate`;
+  const url = `${META4D_NFT_BACKEND_HOST}/api/v1/component/generate`;
   const res = await axios.post(url, { ...param, sig });
   return res;
 };
@@ -50,7 +50,7 @@ export const bindMetadata = async (param: IBindMetadataParams) => {
   const provider = await getProvider();
   const signer = provider.getSigner();
   const sig = await signer.signMessage(param.m4m_token_id);
-  const url = `${process.env.META4D_NFT_BACKEND_HOST}/api/v1/m4m-nft/bind-metadata`;
+  const url = `${META4D_NFT_BACKEND_HOST}/api/v1/m4m-nft/bind-metadata`;
   const res = await axios.post(url, { ...param, sig });
   return res;
 };
@@ -63,10 +63,12 @@ export interface IConvertNFTParams {
 }
 export const convertNFT = async (param: IConvertNFTParams) => {
   const provider = await getProvider();
+  const signer = provider.getSigner();
+  const chainId = await signer.getChainId();
   const registry = new Contract(
-    process.env.META4D_NFT_REGISTRY!,
+    _CONTRACT.META4D_NFT_REGISTRY[chainId],
     M4mNFTRegistry__factory.abi,
-    provider.getSigner()
+    signer
   ) as M4mNFTRegistry;
   const hash1 = ethers.utils.solidityKeccak256(
     ["bytes"],
@@ -106,10 +108,12 @@ export interface ICommonM4mNFTParams {
 }
 export const splitM4mNFT = async (param: ICommonM4mNFTParams) => {
   const provider = await getProvider();
+  const signer = provider.getSigner();
+  const chainId = await signer.getChainId();
   const registry = new Contract(
-    process.env.META4D_NFT_REGISTRY!,
+    _CONTRACT.META4D_NFT_REGISTRY[chainId],
     M4mNFTRegistry__factory.abi,
-    provider.getSigner()
+    signer
   ) as M4mNFTRegistry;
   const res = await registry.splitM4mNFT(
     param.m4mNFTId,
@@ -120,10 +124,12 @@ export const splitM4mNFT = async (param: ICommonM4mNFTParams) => {
 };
 export const assembleM4mNFT = async (param: ICommonM4mNFTParams) => {
   const provider = await getProvider();
+  const signer = provider.getSigner();
+  const chainId = await signer.getChainId();
   const registry = new Contract(
-    process.env.META4D_NFT_REGISTRY!,
+    _CONTRACT.META4D_NFT_REGISTRY[chainId],
     M4mNFTRegistry__factory.abi,
-    provider.getSigner()
+    signer
   ) as M4mNFTRegistry;
   const res = await registry.assembleM4mNFT(
     param.m4mNFTId,
@@ -135,10 +141,12 @@ export const assembleM4mNFT = async (param: ICommonM4mNFTParams) => {
 
 export const redeemNFT = async (param: ICommonM4mNFTParams) => {
   const provider = await getProvider();
+  const signer = provider.getSigner();
+  const chainId = await signer.getChainId();
   const registry = new Contract(
-    process.env.META4D_NFT_REGISTRY!,
+    _CONTRACT.META4D_NFT_REGISTRY[chainId],
     M4mNFTRegistry__factory.abi,
-    provider.getSigner()
+    signer
   ) as M4mNFTRegistry;
   const res = await registry.redeem(
     param.m4mNFTId,

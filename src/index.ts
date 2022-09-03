@@ -1,4 +1,3 @@
-import "./utils/loadEnv";
 import getProvider, {
   Connector_Types,
   registerCallbacks,
@@ -13,7 +12,7 @@ import {
 import { create, urlSource } from "ipfs-http-client";
 import { concat } from "uint8arrays";
 import { Metadata } from "./types/metadata";
-
+import { _CONTRACT } from "./utils/constants";
 export * from "./nft";
 
 export { Connector_Types } from "./utils/getProvider";
@@ -22,10 +21,6 @@ const ipfs = create({
   port: 5001,
   protocol: "https",
 });
-
-const _CONTRACT: any = {
-  80001: "0xf093B9E2454a9BcFBC041F579646080C94EA3C21",
-};
 
 export const connect = async (callback: {
   handleAccountsChanged?: any;
@@ -109,7 +104,7 @@ export const mintNFT = async (
   metadata.image = "ipfs://" + imgResult.cid.toString();
   const metadataResult = await ipfs.add(JSON.stringify(metadata));
   const NFT = new Contract(
-    _CONTRACT[chainId],
+    _CONTRACT.SimpleM4mNFT[chainId],
     SimpleM4mNFT__factory.abi,
     provider.getSigner()
   ) as SimpleM4mNFT;
@@ -145,7 +140,7 @@ export const getNFT = async (
 ) => {
   const { chainId } = await getInfo();
   const NFT = new Contract(
-    _CONTRACT[chainId],
+    _CONTRACT.SimpleM4mNFT[chainId],
     SimpleM4mNFT__factory.abi,
     await getProvider()
   ) as ERC721Enumerable;
@@ -165,7 +160,7 @@ export const getNFT = async (
 export const getNFTList = async (owner: string) => {
   const { chainId } = await getInfo();
   const NFT = new Contract(
-    _CONTRACT[chainId],
+    _CONTRACT.SimpleM4mNFT[chainId],
     ERC721Enumerable__factory.abi,
     await getProvider()
   ) as ERC721Enumerable;
@@ -210,7 +205,7 @@ export const transfer = async (to: string, tokenId: Number) => {
   const provider = await getProvider();
   const { address, chainId } = await getInfo();
   const NFT = new Contract(
-    _CONTRACT[chainId],
+    _CONTRACT.SimpleM4mNFT[chainId],
     SimpleM4mNFT__factory.abi,
     provider.getSigner()
   ) as SimpleM4mNFT;
