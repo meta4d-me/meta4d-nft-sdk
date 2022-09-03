@@ -187,6 +187,7 @@ export interface M4mNFTRegistryInterface extends utils.Interface {
     "Assemble(uint256,uint256[],uint256[])": EventFragment;
     "ConvertToM4mNFT(address,address,uint256,uint256)": EventFragment;
     "Initialize(uint256,uint256[],uint256[])": EventFragment;
+    "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Redeem(address,address,uint256,uint256)": EventFragment;
     "SetOperator(address)": EventFragment;
@@ -196,6 +197,7 @@ export interface M4mNFTRegistryInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Assemble"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ConvertToM4mNFT"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialize"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Redeem"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "SetOperator"): EventFragment;
@@ -227,6 +229,10 @@ export type InitializeEvent = TypedEvent<
 >;
 
 export type InitializeEventFilter = TypedEventFilter<InitializeEvent>;
+
+export type InitializedEvent = TypedEvent<[number], { version: number }>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
@@ -707,6 +713,9 @@ export interface M4mNFTRegistry extends BaseContract {
       componentIds?: null,
       amount?: null
     ): InitializeEventFilter;
+
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
 
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,

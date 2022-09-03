@@ -1,3 +1,4 @@
+import "./utils/loadEnv";
 import getProvider, {
   Connector_Types,
   registerCallbacks,
@@ -12,6 +13,8 @@ import {
 import { create, urlSource } from "ipfs-http-client";
 import { concat } from "uint8arrays";
 import { Metadata } from "./types/metadata";
+
+export * from "./nft";
 
 export { Connector_Types } from "./utils/getProvider";
 const ipfs = create({
