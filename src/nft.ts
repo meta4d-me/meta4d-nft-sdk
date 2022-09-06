@@ -62,6 +62,15 @@ export interface IConvertNFTParams {
   amounts: number[]; // component amounts
 }
 export const convertNFT = async (param: IConvertNFTParams) => {
+  if (
+    param.componentIds &&
+    param.amounts &&
+    param.componentIds.length !== param.amounts.length
+  ) {
+    throw new Error(
+      "Invalid params, component ids and amounts length mismatch."
+    );
+  }
   const provider = await getProvider();
   const signer = provider.getSigner();
   const chainId = await signer.getChainId();
@@ -84,7 +93,11 @@ export const convertNFT = async (param: IConvertNFTParams) => {
     ["bytes"],
     [
       ethers.utils.solidityPack(
-        ["uint", "uint[11]", "uint[11]"],
+        [
+          "uint",
+          `uint[${param.componentIds.length}]`,
+          `uint[${param.amounts.length}]`,
+        ],
         [m4mNFTId, param.componentIds, param.amounts]
       ),
     ]
