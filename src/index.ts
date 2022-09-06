@@ -92,23 +92,19 @@ ${uuid}`);
   return sign;
 };
 
-export const mintNFT = async (
-  owner: string,
-  imgUrl: string,
-  metadata: Metadata
-) => {
+export const mintNFT = async (owner: string, ipfsHash: string) => {
   const provider = await getProvider();
   const { chainId } = await getInfo();
-  const imgResult = await ipfs.add(urlSource(imgUrl));
-  console.debug("[m4m-web3-api] ipfs uploaded: ", imgResult);
-  metadata.image = "ipfs://" + imgResult.cid.toString();
-  const metadataResult = await ipfs.add(JSON.stringify(metadata));
+  // const imgResult = await ipfs.add(urlSource(imgUrl));
+  // console.debug("[m4m-web3-api] ipfs uploaded: ", imgResult);
+  // metadata.image = "ipfs://" + imgResult.cid.toString();
+  // const metadataResult = await ipfs.add(JSON.stringify(metadata));
   const NFT = new Contract(
     _CONTRACT.SimpleM4mNFT[chainId],
     SimpleM4mNFT__factory.abi,
     provider.getSigner()
   ) as SimpleM4mNFT;
-  const tx = await NFT.mint(owner, metadataResult.cid.toString());
+  const tx = await NFT.mint(owner, ipfsHash);
   const res = await tx.wait();
   const tokenId =
     res.events && res.events[0] && res.events[0].args && res.events[0].args[2];

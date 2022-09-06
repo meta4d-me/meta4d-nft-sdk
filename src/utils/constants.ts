@@ -1,6 +1,6 @@
 export const _CONTRACT: any = {
   SimpleM4mNFT: {
-    80001: "0xf093B9E2454a9BcFBC041F579646080C94EA3C21",
+    80001: "0x1a8a1dfd9063eae42a2b8339966fbea388430ca4",
   },
   M4mNFTRegistry: {
     80001: "0xc9d7d33f679000d7621ea381569259eb599ab1c4",

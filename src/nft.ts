@@ -67,6 +67,7 @@ export interface IConvertNFTParams {
   originalTokenId: number; // original NFT token id
   componentIds: number[]; //component ids
   amounts: number[]; // component amounts
+  sig: string;
 }
 export const convertNFT = async (param: IConvertNFTParams) => {
   if (
@@ -82,40 +83,17 @@ export const convertNFT = async (param: IConvertNFTParams) => {
   const signer = provider.getSigner();
   const chainId = await signer.getChainId();
   const registry = new Contract(
-    _CONTRACT.META4D_NFT_REGISTRY[chainId],
+    _CONTRACT.M4mNFTRegistry[chainId],
     M4mNFTRegistry__factory.abi,
     signer
   ) as M4mNFTRegistry;
-  const hash1 = ethers.utils.solidityKeccak256(
-    ["bytes"],
-    [
-      ethers.utils.solidityPack(
-        ["address", "uint"],
-        [param.originalNFT, param.originalTokenId]
-      ),
-    ]
-  );
-  const m4mNFTId = ethers.BigNumber.from(hash1);
-  const hash2 = ethers.utils.solidityKeccak256(
-    ["bytes"],
-    [
-      ethers.utils.solidityPack(
-        [
-          "uint",
-          `uint[${param.componentIds.length}]`,
-          `uint[${param.amounts.length}]`,
-        ],
-        [m4mNFTId, param.componentIds, param.amounts]
-      ),
-    ]
-  );
-  const sig = await provider.getSigner().signMessage(hash2);
+
   const tx = await registry.convertNFT(
     param.originalNFT,
     param.originalTokenId,
     param.componentIds,
     param.amounts,
-    sig
+    param.sig
   );
   const res = await tx.wait();
   return res;
@@ -131,15 +109,16 @@ export const splitM4mNFT = async (param: ICommonM4mNFTParams) => {
   const signer = provider.getSigner();
   const chainId = await signer.getChainId();
   const registry = new Contract(
-    _CONTRACT.META4D_NFT_REGISTRY[chainId],
+    _CONTRACT.M4mNFTRegistry[chainId],
     M4mNFTRegistry__factory.abi,
     signer
   ) as M4mNFTRegistry;
-  const res = await registry.splitM4mNFT(
+  const tx = await registry.splitM4mNFT(
     param.m4mNFTId,
     param.componentIds,
     param.amounts
   );
+  const res = await tx.wait();
   return res;
 };
 export const assembleM4mNFT = async (param: ICommonM4mNFTParams) => {
@@ -147,15 +126,16 @@ export const assembleM4mNFT = async (param: ICommonM4mNFTParams) => {
   const signer = provider.getSigner();
   const chainId = await signer.getChainId();
   const registry = new Contract(
-    _CONTRACT.META4D_NFT_REGISTRY[chainId],
+    _CONTRACT.M4mNFTRegistry[chainId],
     M4mNFTRegistry__factory.abi,
     signer
   ) as M4mNFTRegistry;
-  const res = await registry.assembleM4mNFT(
+  const tx = await registry.assembleM4mNFT(
     param.m4mNFTId,
     param.componentIds,
     param.amounts
   );
+  const res = await tx.wait();
   return res;
 };
 
@@ -164,15 +144,16 @@ export const redeemNFT = async (param: ICommonM4mNFTParams) => {
   const signer = provider.getSigner();
   const chainId = await signer.getChainId();
   const registry = new Contract(
-    _CONTRACT.META4D_NFT_REGISTRY[chainId],
+    _CONTRACT.M4mNFTRegistry[chainId],
     M4mNFTRegistry__factory.abi,
     signer
   ) as M4mNFTRegistry;
-  const res = await registry.redeem(
+  const tx = await registry.redeem(
     param.m4mNFTId,
     param.componentIds,
     param.amounts
   );
+  const res = await tx.wait();
   return res;
 };
 
@@ -187,6 +168,7 @@ export const approveForAll = async (
     type === "erc721" ? ERC721__factory.abi : ERC1155Upgradeable__factory.abi,
     provider.getSigner()
   );
-  const res = await nft.setApprovalForAll(targetContract, true);
+  const tx = await nft.setApprovalForAll(targetContract, true);
+  const res = await tx.wait();
   return res;
 };
