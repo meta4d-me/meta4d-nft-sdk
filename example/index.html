@@ -79,7 +79,7 @@
       window.M4M.prepareComponent({
         chain_name: "mumbai",
         // code of equipment, should be string of number
-        component_id: "30",
+        component_id: "50",
         description: "test prepare",
         // full name of component
         name: "Blink Blade",
@@ -88,7 +88,12 @@
         // ipfs hash
         uri: "ipfs://test.bb",
         // attributes that compliant Opense
-        attrs: { price: 2100 },
+        attrs: [
+          {
+            trait_type: "position",
+            value: "head",
+          },
+        ],
       }).then((res) => {
         console.log(res);
       });
@@ -123,8 +128,8 @@
             if (res.chainId !== 80001)
               return window.M4M.switchNetwork().then((res) => {});
             // mint();
-            testPrepareComponent();
-            // testBindMetadata()
+            // testPrepareComponent();
+            testBindMetadata();
           });
         });
       }
