@@ -16,8 +16,15 @@ import { _CONTRACT, META4D_NFT_BACKEND_HOST } from "./utils/constants";
 /**
  * Register new component NFT
  */
+
+export enum ENUM_CHAIN_NAME {
+  CHAIN_NAME_MAINNET = "mainnet",
+  CHAIN_NAME_POLYGON = "polygon",
+  CHAIN_NAME_RINKEBY = "rinkeby",
+  CHAIN_NAME_MUMBAI = "mumbai",
+}
 export interface IPrepareComponentParams {
-  chain_name: string;
+  chain_name: ENUM_CHAIN_NAME;
   // code of equipment, should be string of number
   component_id: string;
   description: string;
@@ -40,7 +47,7 @@ export const prepareComponent = async (param: IPrepareComponentParams) => {
 };
 
 export interface IBindMetadataParams {
-  chain_name: string;
+  chain_name: ENUM_CHAIN_NAME;
   m4m_token_id: string;
   description: string;
   name: string;

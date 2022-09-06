@@ -75,6 +75,37 @@
       console.log(error);
     }
 
+    function testPrepareComponent() {
+      window.M4M.prepareComponent({
+        chain_name: "mumbai",
+        // code of equipment, should be string of number
+        component_id: "30",
+        description: "test prepare",
+        // full name of component
+        name: "Blink Blade",
+        // abbrevation of name
+        symbol: "BB",
+        // ipfs hash
+        uri: "ipfs://test.bb",
+        // attributes that compliant Opense
+        attrs: { price: 2100 },
+      }).then((res) => {
+        console.log(res);
+      });
+    }
+
+    function testBindMetadata() {
+      window.M4M.bindMetadata({
+        chain_name: "mumbai",
+        m4m_token_id: "123123123",
+        description: "test",
+        name: "testNFT",
+        uri: "ipfs://test.nft",
+      }).then((res) => {
+        console.log(res);
+      });
+    }
+
     document.onreadystatechange = () => {
       if (document.readyState == "complete") {
         // window.BinanceChain is injected now
@@ -92,6 +123,8 @@
             if (res.chainId !== 80001)
               return window.M4M.switchNetwork().then((res) => {});
             // mint();
+            testPrepareComponent();
+            // testBindMetadata()
           });
         });
       }
