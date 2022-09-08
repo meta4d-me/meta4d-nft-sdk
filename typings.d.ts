@@ -1,4 +1,4 @@
 interface Window {
-  ethereum?: any;
+  ethereum?: unknown | any;
   BinanceChain?: any;
 }

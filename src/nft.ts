@@ -23,9 +23,9 @@ export enum ENUM_CHAIN_NAME {
   CHAIN_NAME_RINKEBY = "rinkeby",
   CHAIN_NAME_MUMBAI = "mumbai",
 }
+
 export interface IPrepareComponentParams {
-  chain_name: ENUM_CHAIN_NAME;
-  // code of equipment, should be string of number
+  chain_name: ENUM_CHAIN_NAME; // chain name
   component_id: string;
   description: string;
   // full name of component
@@ -35,8 +35,14 @@ export interface IPrepareComponentParams {
   // ipfs hash
   uri: string;
   // attributes that compliant Opense
-  attrs: Record<string, any>;
+  attrs: Record<string, any>[];
 }
+/**
+ * Prepare component 
+ * @param param - params
+ * @param param.chain_name - chain name
+ * @returns 
+ */
 export const prepareComponent = async (param: IPrepareComponentParams) => {
   const provider = await getProvider();
   const signer = provider.getSigner();
