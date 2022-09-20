@@ -6,6 +6,7 @@ export interface IM4mNFTRegistryInterface extends utils.Interface {
     contractName: "IM4mNFTRegistry";
     functions: {
         "assembleM4mNFT(uint256,uint256[],uint256[])": FunctionFragment;
+        "claimLoot(string,uint256[],uint256[],bytes)": FunctionFragment;
         "components()": FunctionFragment;
         "convertNFT(address,uint256,uint256[],uint256[],bytes)": FunctionFragment;
         "dao()": FunctionFragment;
@@ -20,6 +21,7 @@ export interface IM4mNFTRegistryInterface extends utils.Interface {
         "unlock(uint256)": FunctionFragment;
     };
     encodeFunctionData(functionFragment: "assembleM4mNFT", values: [BigNumberish, BigNumberish[], BigNumberish[]]): string;
+    encodeFunctionData(functionFragment: "claimLoot", values: [string, BigNumberish[], BigNumberish[], BytesLike]): string;
     encodeFunctionData(functionFragment: "components", values?: undefined): string;
     encodeFunctionData(functionFragment: "convertNFT", values: [string, BigNumberish, BigNumberish[], BigNumberish[], BytesLike]): string;
     encodeFunctionData(functionFragment: "dao", values?: undefined): string;
@@ -33,6 +35,7 @@ export interface IM4mNFTRegistryInterface extends utils.Interface {
     encodeFunctionData(functionFragment: "splitM4mNFT", values: [BigNumberish, BigNumberish[], BigNumberish[]]): string;
     encodeFunctionData(functionFragment: "unlock", values: [BigNumberish]): string;
     decodeFunctionResult(functionFragment: "assembleM4mNFT", data: BytesLike): Result;
+    decodeFunctionResult(functionFragment: "claimLoot", data: BytesLike): Result;
     decodeFunctionResult(functionFragment: "components", data: BytesLike): Result;
     decodeFunctionResult(functionFragment: "convertNFT", data: BytesLike): Result;
     decodeFunctionResult(functionFragment: "dao", data: BytesLike): Result;
@@ -66,6 +69,9 @@ export interface IM4mNFTRegistry extends BaseContract {
         assembleM4mNFT(tokenId: BigNumberish, componentIds: BigNumberish[], amounts: BigNumberish[], overrides?: Overrides & {
             from?: string | Promise<string>;
         }): Promise<ContractTransaction>;
+        claimLoot(uuid: string, componentIds: BigNumberish[], amounts: BigNumberish[], sig: BytesLike, overrides?: Overrides & {
+            from?: string | Promise<string>;
+        }): Promise<ContractTransaction>;
         components(overrides?: CallOverrides): Promise<[string]>;
         convertNFT(original: string, tokenId: BigNumberish, componentIds: BigNumberish[], amounts: BigNumberish[], sig: BytesLike, overrides?: Overrides & {
             from?: string | Promise<string>;
@@ -92,6 +98,9 @@ export interface IM4mNFTRegistry extends BaseContract {
     assembleM4mNFT(tokenId: BigNumberish, componentIds: BigNumberish[], amounts: BigNumberish[], overrides?: Overrides & {
         from?: string | Promise<string>;
     }): Promise<ContractTransaction>;
+    claimLoot(uuid: string, componentIds: BigNumberish[], amounts: BigNumberish[], sig: BytesLike, overrides?: Overrides & {
+        from?: string | Promise<string>;
+    }): Promise<ContractTransaction>;
     components(overrides?: CallOverrides): Promise<string>;
     convertNFT(original: string, tokenId: BigNumberish, componentIds: BigNumberish[], amounts: BigNumberish[], sig: BytesLike, overrides?: Overrides & {
         from?: string | Promise<string>;
@@ -116,6 +125,7 @@ export interface IM4mNFTRegistry extends BaseContract {
     }): Promise<ContractTransaction>;
     callStatic: {
         assembleM4mNFT(tokenId: BigNumberish, componentIds: BigNumberish[], amounts: BigNumberish[], overrides?: CallOverrides): Promise<void>;
+        claimLoot(uuid: string, componentIds: BigNumberish[], amounts: BigNumberish[], sig: BytesLike, overrides?: CallOverrides): Promise<void>;
         components(overrides?: CallOverrides): Promise<string>;
         convertNFT(original: string, tokenId: BigNumberish, componentIds: BigNumberish[], amounts: BigNumberish[], sig: BytesLike, overrides?: CallOverrides): Promise<void>;
         dao(overrides?: CallOverrides): Promise<string>;
@@ -132,6 +142,9 @@ export interface IM4mNFTRegistry extends BaseContract {
     filters: {};
     estimateGas: {
         assembleM4mNFT(tokenId: BigNumberish, componentIds: BigNumberish[], amounts: BigNumberish[], overrides?: Overrides & {
+            from?: string | Promise<string>;
+        }): Promise<BigNumber>;
+        claimLoot(uuid: string, componentIds: BigNumberish[], amounts: BigNumberish[], sig: BytesLike, overrides?: Overrides & {
             from?: string | Promise<string>;
         }): Promise<BigNumber>;
         components(overrides?: CallOverrides): Promise<BigNumber>;
@@ -159,6 +172,9 @@ export interface IM4mNFTRegistry extends BaseContract {
     };
     populateTransaction: {
         assembleM4mNFT(tokenId: BigNumberish, componentIds: BigNumberish[], amounts: BigNumberish[], overrides?: Overrides & {
+            from?: string | Promise<string>;
+        }): Promise<PopulatedTransaction>;
+        claimLoot(uuid: string, componentIds: BigNumberish[], amounts: BigNumberish[], sig: BytesLike, overrides?: Overrides & {
             from?: string | Promise<string>;
         }): Promise<PopulatedTransaction>;
         components(overrides?: CallOverrides): Promise<PopulatedTransaction>;

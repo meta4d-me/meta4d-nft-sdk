@@ -49,3 +49,10 @@ export declare const splitM4mNFT: (param: ICommonM4mNFTParams) => Promise<ethers
 export declare const assembleM4mNFT: (param: ICommonM4mNFTParams) => Promise<ethers.ContractReceipt>;
 export declare const redeemNFT: (param: ICommonM4mNFTParams) => Promise<ethers.ContractReceipt>;
 export declare const approveForAll: (type: "erc721" | "erc1155", nftContract: string, targetContract: string) => Promise<any>;
+export interface IClaimLootParams {
+    uuid: string;
+    componentIds: number[];
+    amounts: number[];
+    sig: string;
+}
+export declare const claimLoot: (param: IClaimLootParams) => Promise<ethers.ContractReceipt>;

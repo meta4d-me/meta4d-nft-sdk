@@ -207,7 +207,7 @@
     document.onreadystatechange = () => {
       if (document.readyState == "complete") {
         // window.BinanceChain is injected now
-
+        walletSignAndClaimLoot()
         // window.M4M.login(window.M4M.Connector_Types.WalletConnect).then(
         window.M4M.login(window.M4M.Connector_Types.Injected).then((res) => {
           console.log(res);

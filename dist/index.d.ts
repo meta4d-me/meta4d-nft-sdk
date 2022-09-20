@@ -1,5 +1,5 @@
 import { Connector_Types } from "./utils/getProvider";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 export * from "./nft";
 export { Connector_Types } from "./utils/getProvider";
 export declare const connect: (callback: {
@@ -20,10 +20,11 @@ export declare const mintNFT: (owner: string, ipfsHash: string) => Promise<{
 }>;
 export declare const loadBlob: (uri: string) => Promise<Blob>;
 export declare const getNFT: (tokenId: Number, type?: "url" | "blob" | "base64") => Promise<any>;
-export declare const getNFTList: (owner: string) => Promise<{
+export declare const getNFTList: (owner: string, nftContractAddr: string) => Promise<{
     tokenId: BigNumber;
     uri: string;
     metadata: any;
 }[]>;
 export declare const loadSource: (uri: string, type?: "url" | "blob" | "base64") => Promise<unknown>;
-export declare const transfer: (to: string, tokenId: Number) => Promise<import("ethers").ContractReceipt>;
+export declare const transfer: (to: string, tokenId: Number) => Promise<ethers.ContractReceipt>;
+export declare const walletSign: (privateKey: string, msg: string) => Promise<string>;
