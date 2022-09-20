@@ -153,10 +153,9 @@ export const getNFT = async (
 };
 
 // the nft contract should enumerable
-export const getNFTList = async (owner: string) => {
-  const { chainId } = await getInfo();
+export const getNFTList = async (owner: string, nftContractAddr: string) => {
   const NFT = new Contract(
-    _CONTRACT.SimpleM4mNFT[chainId],
+    nftContractAddr,
     ERC721Enumerable__factory.abi,
     await getProvider()
   ) as ERC721Enumerable;
