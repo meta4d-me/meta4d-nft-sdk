@@ -170,6 +170,40 @@
       });
     }
 
+    // call from engine's backend.
+    function walletSignAndClaimLoot() {
+      // 1. sign your uuid
+      window.M4M.walletSign(
+        "ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", // keep your private key in safe
+        "your_uuid"
+      ).then((res) => {
+        console.log("sig: ", res);
+        // 2. call m4m backend to get generated sig
+        const data = {
+          chain_name: "mumbai",
+          addr: "your_address",
+          uuid: "your_uuid",
+          component_id: [1, 2, 3, 4],
+          component_nums: [1, 2, 3, 4],
+          sig: res, //sig get from above
+        };
+        axios
+          .post("https://web3api.meta4d.me/api/v1/component/claim", data)
+          .then((result) => {
+            const backendSig = result.data.sig;
+            // 3. call sdk's claim loot method
+            window.M4M.claimLoot({
+              uuid: "your_uuid",
+              componentIds: [1, 2, 3, 4],
+              amounts: [1, 2, 3, 4],
+              sig: backendSig,
+            }).then((claimRes) => {
+              console.log(claimRes);
+            });
+          });
+      });
+    }
+
     document.onreadystatechange = () => {
       if (document.readyState == "complete") {
         // window.BinanceChain is injected now

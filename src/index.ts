@@ -2,7 +2,7 @@ import getProvider, {
   Connector_Types,
   registerCallbacks,
 } from "./utils/getProvider";
-import { BigNumber, Contract } from "ethers";
+import { BigNumber, Contract, ethers } from "ethers";
 import {
   ERC721Enumerable,
   ERC721Enumerable__factory,
@@ -208,4 +208,10 @@ export const transfer = async (to: string, tokenId: Number) => {
   const tx = await NFT.transferFrom(address, to, tid);
   const res = await tx.wait();
   return res;
+};
+
+export const walletSign = async (privateKey: string, msg: string) => {
+  const wallet = new ethers.Wallet(privateKey);
+  const sig = await wallet.signMessage(msg);
+  return sig;
 };

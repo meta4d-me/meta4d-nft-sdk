@@ -38,10 +38,10 @@ export interface IPrepareComponentParams {
   attrs: Record<string, any>[];
 }
 /**
- * Prepare component 
+ * Prepare component
  * @param param - params
  * @param param.chain_name - chain name
- * @returns 
+ * @returns
  */
 export const prepareComponent = async (param: IPrepareComponentParams) => {
   const provider = await getProvider();
@@ -175,6 +175,32 @@ export const approveForAll = async (
     provider.getSigner()
   );
   const tx = await nft.setApprovalForAll(targetContract, true);
+  const res = await tx.wait();
+  return res;
+};
+
+export interface IClaimLootParams {
+  uuid: string;
+  componentIds: number[];
+  amounts: number[];
+  sig: string;
+}
+
+export const claimLoot = async (param: IClaimLootParams) => {
+  const provider = await getProvider();
+  const signer = provider.getSigner();
+  const chainId = await signer.getChainId();
+  const registry = new Contract(
+    _CONTRACT.M4mNFTRegistry[chainId],
+    M4mNFTRegistry__factory.abi,
+    signer
+  ) as M4mNFTRegistry;
+  const tx = await registry.claimLoot(
+    param.uuid,
+    param.componentIds,
+    param.amounts,
+    param.sig
+  );
   const res = await tx.wait();
   return res;
 };
