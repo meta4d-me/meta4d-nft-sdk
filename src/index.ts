@@ -164,12 +164,18 @@ export const getNFTList = async (owner: string, nftContractAddr: string) => {
   for (let i = 0; balance.gt(i); i++) {
     const tokenId = await NFT.tokenOfOwnerByIndex(owner, i);
     const uri = await NFT.tokenURI(tokenId);
-    const blob = await loadBlob(uri);
-    const raw = await blob.text();
+    let metadata;
+    try {
+      const blob = await loadBlob(uri);
+      const raw = await blob.text();
+      metadata = JSON.parse(raw);
+    } catch (err) {
+      console.log("load ipfs source failed. ", err);
+    }
     list.push({
       tokenId: tokenId,
       uri: uri,
-      metadata: JSON.parse(raw),
+      metadata,
     });
   }
   return list;
