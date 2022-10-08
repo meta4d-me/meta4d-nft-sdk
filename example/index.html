@@ -204,10 +204,20 @@
       });
     }
 
+    function clientSign() {
+      window.M4M.getProvider().then((provider) => {
+        const signer = provider.getSigner();
+        signer.signMessage("Your message to sign").then((sig) => {
+          console.log("sig: ", sig);
+        });
+      });
+    }
+
     document.onreadystatechange = () => {
       if (document.readyState == "complete") {
         // window.BinanceChain is injected now
-        walletSignAndClaimLoot()
+        clientSign()
+        walletSignAndClaimLoot();
         // window.M4M.login(window.M4M.Connector_Types.WalletConnect).then(
         window.M4M.login(window.M4M.Connector_Types.Injected).then((res) => {
           console.log(res);

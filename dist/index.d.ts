@@ -1,6 +1,7 @@
-import { Connector_Types } from "./utils/getProvider";
+import getProvider, { Connector_Types } from "./utils/getProvider";
 import { BigNumber, ethers } from "ethers";
 export * from "./nft";
+export { getProvider };
 export { Connector_Types } from "./utils/getProvider";
 export declare const connect: (callback: {
     handleAccountsChanged?: any;

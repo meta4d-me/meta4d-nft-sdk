@@ -15,6 +15,8 @@ import { Metadata } from "./types/metadata";
 import { _CONTRACT } from "./utils/constants";
 export * from "./nft";
 
+export { getProvider };
+
 export { Connector_Types } from "./utils/getProvider";
 const ipfs = create({
   host: "ipfs.infura.io",
