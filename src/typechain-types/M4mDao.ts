@@ -69,19 +69,13 @@ export interface M4mDaoInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "SetConvertibleList(address,bool)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "SetConvertibleList"): EventFragment;
 }
-
-export type InitializedEvent = TypedEvent<[number], { version: number }>;
-
-export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
@@ -199,9 +193,6 @@ export interface M4mDao extends BaseContract {
   };
 
   filters: {
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
-    Initialized(version?: null): InitializedEventFilter;
-
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
