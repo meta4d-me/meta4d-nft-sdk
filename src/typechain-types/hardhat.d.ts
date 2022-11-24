@@ -81,6 +81,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165Upgradeable__factory>;
     getContractFactory(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Ownable__factory>;
+    getContractFactory(
       name: "ERC721",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721__factory>;
@@ -104,6 +108,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC721Receiver",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC721Receiver__factory>;
+    getContractFactory(
+      name: "ERC721Holder",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721Holder__factory>;
     getContractFactory(
       name: "ERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -156,6 +164,10 @@ declare module "hardhat/types/runtime" {
       name: "Manager",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Manager__factory>;
+    getContractFactory(
+      name: "Zip",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Zip__factory>;
 
     getContractAt(
       name: "OwnableUpgradeable",
@@ -243,6 +255,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165Upgradeable>;
     getContractAt(
+      name: "Ownable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
       name: "ERC721",
       address: string,
       signer?: ethers.Signer
@@ -272,6 +289,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC721Receiver>;
+    getContractAt(
+      name: "ERC721Holder",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721Holder>;
     getContractAt(
       name: "ERC165",
       address: string,
@@ -337,6 +359,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Manager>;
+    getContractAt(
+      name: "Zip",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Zip>;
 
     // default types
     getContractFactory(
