@@ -12,7 +12,7 @@ import {
 import { create, urlSource } from "ipfs-http-client";
 import { concat } from "uint8arrays";
 import { Metadata } from "./types/metadata";
-import { _CONTRACT } from "./utils/constants";
+import { _CONTRACT, RPC_NODE } from "./utils/constants";
 export * from "./nft";
 
 export { getProvider };
@@ -94,6 +94,7 @@ ${uuid}`);
   return sign;
 };
 
+// ipfsHash has no prefix, only hash.
 export const mintNFT = async (owner: string, ipfsHash: string) => {
   const provider = await getProvider();
   const { chainId } = await getInfo();

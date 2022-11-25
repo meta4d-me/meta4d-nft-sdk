@@ -9,10 +9,21 @@ import {
   ERC721__factory,
   ERC1155Upgradeable,
   ERC1155Upgradeable__factory,
+  SimpleM4mNFT,
+  SimpleM4mNFT__factory,
+  Zip,
+  Zip__factory,
+  Manager,
+  Manager__factory,
 } from "./typechain-types";
 import { Contract } from "ethers";
 import { ethers } from "ethers";
-import { _CONTRACT, META4D_NFT_BACKEND_HOST } from "./utils/constants";
+import {
+  _CONTRACT,
+  META4D_NFT_BACKEND_HOST,
+  RPC_NODE,
+  ChAIN_NAME,
+} from "./utils/constants";
 /**
  * Register new component NFT
  */
@@ -200,6 +211,77 @@ export const claimLoot = async (param: IClaimLootParams) => {
     param.componentIds,
     param.amounts,
     param.sig
+  );
+  const res = await tx.wait();
+  return res;
+};
+
+// for server
+export const getSimpleM4MNFTTokenId = async (chainId: number) => {
+  const provider = new ethers.providers.JsonRpcProvider(RPC_NODE[chainId]);
+  const simpleM4MNFT = new Contract(
+    _CONTRACT.SimpleM4mNFT[chainId],
+    SimpleM4mNFT__factory.abi,
+    provider
+  ) as SimpleM4mNFT;
+  const res = await simpleM4MNFT.tokenIndex();
+  return res.toNumber();
+};
+
+/**
+ * Zip mint simple m4m nft and convert simple to M4M nft at one transaction.
+ */
+export const mintM4MNFt = async (
+  owner: string,
+  tokenId: number,
+  chainId: number,
+  privateKey: string
+) => {
+  const provider = new ethers.providers.JsonRpcProvider(RPC_NODE[chainId]);
+  const signer = new ethers.Wallet(privateKey, provider);
+  const zipContract = new Contract(
+    _CONTRACT.Zip[chainId],
+    Zip__factory.abi,
+    signer
+  ) as Zip;
+  const simpleM4mNFT = _CONTRACT.SimpleM4mNFT[chainId];
+  const url = `${META4D_NFT_BACKEND_HOST}/api/v1/m4m-nft/initialization?original_addr=${simpleM4mNFT}&&original_token_id=${tokenId}&&chain_name=${ChAIN_NAME[chainId]}`;
+  const res = await axios.get(url);
+  const data: any = res.data;
+  if (!data) {
+    throw new Error("Http response error");
+  }
+  const tx = await zipContract.mintM4mNFT(
+    owner,
+    data.component_ids,
+    data.component_nums,
+    data.sig
+  );
+  const zipRes = await tx.wait();
+  return zipRes;
+};
+
+export const setURIVersion = async (
+  chainId: number,
+  nftContract: string,
+  tokenId: number,
+  uri: string,
+  privateKey: string
+) => {
+  const provider = new ethers.providers.JsonRpcProvider(RPC_NODE[chainId]);
+  const signer = new ethers.Wallet(privateKey, provider);
+  const managerContract = new Contract(
+    _CONTRACT.VersionManager[chainId],
+    Manager__factory.abi,
+    signer
+  ) as Manager;
+  const tx = await managerContract.setInfo(
+    {
+      chainId,
+      nft: nftContract,
+      tokenId,
+    },
+    uri
   );
   const res = await tx.wait();
   return res;
