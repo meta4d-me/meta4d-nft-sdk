@@ -6,7 +6,7 @@ export const _CONTRACT: any = {
     80001: "0xc9d7d33f679000d7621ea381569259eb599ab1c4",
   },
   Zip: {
-    80001: "0x3eb8c78d907342bd216ee122b8fcb9ca6bad4bfb",
+    80001: "0x757464676A09b46fE522B8d2A1413371E317e089",
   },
   VersionManager: {
     80001: "0xd8b1FB6c7f7A2d3Ed5CECF87cBa516c245f3BbAf",

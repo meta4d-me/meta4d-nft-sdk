@@ -231,9 +231,8 @@ export const getSimpleM4MNFTTokenId = async (chainId: number) => {
 /**
  * Zip mint simple m4m nft and convert simple to M4M nft at one transaction.
  */
-export const mintM4MNFt = async (
+export const mintM4MNFT = async (
   owner: string,
-  tokenId: number,
   chainId: number,
   privateKey: string
 ) => {
@@ -244,8 +243,13 @@ export const mintM4MNFt = async (
     Zip__factory.abi,
     signer
   ) as Zip;
-  const simpleM4mNFT = _CONTRACT.SimpleM4mNFT[chainId];
-  const url = `${META4D_NFT_BACKEND_HOST}/api/v1/m4m-nft/initialization?original_addr=${simpleM4mNFT}&&original_token_id=${tokenId}&&chain_name=${ChAIN_NAME[chainId]}`;
+  const simpleM4mNFT = new Contract(
+    _CONTRACT.SimpleM4mNFT[chainId],
+    SimpleM4mNFT__factory.abi,
+    signer
+  ) as SimpleM4mNFT;
+  const tokenId = await simpleM4mNFT.tokenIndex();
+  const url = `${META4D_NFT_BACKEND_HOST}/api/v1/m4m-nft/initialization?original_addr=${simpleM4mNFT.address}&&original_token_id=${tokenId}&&chain_name=${ChAIN_NAME[chainId]}`;
   const res = await axios.get(url);
   const data: any = res.data;
   if (!data) {
@@ -259,6 +263,62 @@ export const mintM4MNFt = async (
   );
   const zipRes = await tx.wait();
   return zipRes;
+};
+
+export const zipChangeComponents = async (
+  chainId: number,
+  privateKey: string,
+  m4mTokenId: number,
+  outComponentsIds: number[],
+  outAmounts: number[],
+  inComponentIds: number[],
+  inAmounts: number[]
+) => {
+  const provider = new ethers.providers.JsonRpcProvider(RPC_NODE[chainId]);
+  const signer = new ethers.Wallet(privateKey, provider);
+  const zipContract = new Contract(
+    _CONTRACT.Zip[chainId],
+    Zip__factory.abi,
+    signer
+  ) as Zip;
+  const tx = await zipContract.changeComponents(
+    m4mTokenId,
+    outComponentsIds,
+    outAmounts,
+    inComponentIds,
+    inAmounts
+  );
+  const res = await tx.wait();
+  return res;
+};
+
+export const zipChangeComponentsAndRecordVersion = async (
+  chainId: number,
+  privateKey: string,
+  m4mTokenId: number,
+  outComponentsIds: number[],
+  outAmounts: number[],
+  inComponentIds: number[],
+  inAmounts: number[],
+  oldVersion: string
+) => {
+  const provider = new ethers.providers.JsonRpcProvider(RPC_NODE[chainId]);
+  const signer = new ethers.Wallet(privateKey, provider);
+  const zipContract = new Contract(
+    _CONTRACT.Zip[chainId],
+    Zip__factory.abi,
+    signer
+  ) as Zip;
+  const tx = await zipContract.changeComponentsAndRecordVersion(
+    m4mTokenId,
+    outComponentsIds,
+    outAmounts,
+    inComponentIds,
+    inAmounts,
+    oldVersion
+  );
+  const res = await tx.wait();
+  return res;
 };
 
 export const setURIVersion = async (

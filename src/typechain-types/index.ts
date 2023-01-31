@@ -3,6 +3,7 @@
 /* eslint-disable */
 export type { OwnableUpgradeable } from "./OwnableUpgradeable";
 export type { IERC1271Upgradeable } from "./IERC1271Upgradeable";
+export type { Initializable } from "./Initializable";
 export type { ERC1155Upgradeable } from "./ERC1155Upgradeable";
 export type { IERC1155MetadataURIUpgradeable } from "./IERC1155MetadataURIUpgradeable";
 export type { IERC1155ReceiverUpgradeable } from "./IERC1155ReceiverUpgradeable";
@@ -16,6 +17,7 @@ export type { IERC721MetadataUpgradeable } from "./IERC721MetadataUpgradeable";
 export type { IERC721ReceiverUpgradeable } from "./IERC721ReceiverUpgradeable";
 export type { IERC721Upgradeable } from "./IERC721Upgradeable";
 export type { ERC721HolderUpgradeable } from "./ERC721HolderUpgradeable";
+export type { ContextUpgradeable } from "./ContextUpgradeable";
 export type { ERC165Upgradeable } from "./ERC165Upgradeable";
 export type { IERC165Upgradeable } from "./IERC165Upgradeable";
 export type { Ownable } from "./Ownable";
@@ -46,6 +48,7 @@ export type { Zip } from "./Zip";
 
 export { OwnableUpgradeable__factory } from "./factories/OwnableUpgradeable__factory";
 export { IERC1271Upgradeable__factory } from "./factories/IERC1271Upgradeable__factory";
+export { Initializable__factory } from "./factories/Initializable__factory";
 export { ERC1155Upgradeable__factory } from "./factories/ERC1155Upgradeable__factory";
 export { IERC1155MetadataURIUpgradeable__factory } from "./factories/IERC1155MetadataURIUpgradeable__factory";
 export { IERC1155ReceiverUpgradeable__factory } from "./factories/IERC1155ReceiverUpgradeable__factory";
@@ -59,6 +62,7 @@ export { IERC721MetadataUpgradeable__factory } from "./factories/IERC721Metadata
 export { IERC721ReceiverUpgradeable__factory } from "./factories/IERC721ReceiverUpgradeable__factory";
 export { IERC721Upgradeable__factory } from "./factories/IERC721Upgradeable__factory";
 export { ERC721HolderUpgradeable__factory } from "./factories/ERC721HolderUpgradeable__factory";
+export { ContextUpgradeable__factory } from "./factories/ContextUpgradeable__factory";
 export { ERC165Upgradeable__factory } from "./factories/ERC165Upgradeable__factory";
 export { IERC165Upgradeable__factory } from "./factories/IERC165Upgradeable__factory";
 export { Ownable__factory } from "./factories/Ownable__factory";
