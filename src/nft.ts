@@ -253,8 +253,8 @@ export const mintM4MNFt = async (
   }
   const tx = await zipContract.mintM4mNFT(
     owner,
-    data.component_ids,
-    data.component_nums,
+    data.component_ids.split(","),
+    data.component_nums.split(","),
     data.sig
   );
   const zipRes = await tx.wait();
