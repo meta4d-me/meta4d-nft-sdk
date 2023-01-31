@@ -21,20 +21,56 @@ export interface ZipInterface extends utils.Interface {
   contractName: "Zip";
   functions: {
     "baseURI()": FunctionFragment;
+    "changeComponents(uint256,uint256[],uint256[],uint256[],uint256[])": FunctionFragment;
+    "changeComponentsAndRecordVersion(uint256,uint256[],uint256[],uint256[],uint256[],string)": FunctionFragment;
+    "manager()": FunctionFragment;
     "mintM4mNFT(address,uint256[],uint256[],bytes)": FunctionFragment;
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
+    "onERC1155Received(address,address,uint256,uint256,bytes)": FunctionFragment;
     "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
     "owner()": FunctionFragment;
     "registry()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "simpleM4mNFT()": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "updateBaseURI(string)": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "baseURI", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "changeComponents",
+    values: [
+      BigNumberish,
+      BigNumberish[],
+      BigNumberish[],
+      BigNumberish[],
+      BigNumberish[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeComponentsAndRecordVersion",
+    values: [
+      BigNumberish,
+      BigNumberish[],
+      BigNumberish[],
+      BigNumberish[],
+      BigNumberish[],
+      string
+    ]
+  ): string;
+  encodeFunctionData(functionFragment: "manager", values?: undefined): string;
+  encodeFunctionData(
     functionFragment: "mintM4mNFT",
     values: [string, BigNumberish[], BigNumberish[], BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "onERC1155BatchReceived",
+    values: [string, string, BigNumberish[], BigNumberish[], BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "onERC1155Received",
+    values: [string, string, BigNumberish, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "onERC721Received",
@@ -51,6 +87,10 @@ export interface ZipInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
@@ -60,7 +100,24 @@ export interface ZipInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "baseURI", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeComponents",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "changeComponentsAndRecordVersion",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "manager", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintM4mNFT", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "onERC1155BatchReceived",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "onERC1155Received",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "onERC721Received",
     data: BytesLike
@@ -73,6 +130,10 @@ export interface ZipInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "simpleM4mNFT",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -129,11 +190,50 @@ export interface Zip extends BaseContract {
   functions: {
     baseURI(overrides?: CallOverrides): Promise<[string]>;
 
+    changeComponents(
+      m4mTokenId: BigNumberish,
+      outComponentIds: BigNumberish[],
+      outAmounts: BigNumberish[],
+      inComponentIds: BigNumberish[],
+      inAmounts: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    changeComponentsAndRecordVersion(
+      m4mTokenId: BigNumberish,
+      outComponentIds: BigNumberish[],
+      outAmounts: BigNumberish[],
+      inComponentIds: BigNumberish[],
+      inAmounts: BigNumberish[],
+      oldVersion: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    manager(overrides?: CallOverrides): Promise<[string]>;
+
     mintM4mNFT(
       owner: string,
       componentIds: BigNumberish[],
       amounts: BigNumberish[],
       sig: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    onERC1155BatchReceived(
+      arg0: string,
+      arg1: string,
+      arg2: BigNumberish[],
+      arg3: BigNumberish[],
+      arg4: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    onERC1155Received(
+      arg0: string,
+      arg1: string,
+      arg2: BigNumberish,
+      arg3: BigNumberish,
+      arg4: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -155,6 +255,11 @@ export interface Zip extends BaseContract {
 
     simpleM4mNFT(overrides?: CallOverrides): Promise<[string]>;
 
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -168,11 +273,50 @@ export interface Zip extends BaseContract {
 
   baseURI(overrides?: CallOverrides): Promise<string>;
 
+  changeComponents(
+    m4mTokenId: BigNumberish,
+    outComponentIds: BigNumberish[],
+    outAmounts: BigNumberish[],
+    inComponentIds: BigNumberish[],
+    inAmounts: BigNumberish[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeComponentsAndRecordVersion(
+    m4mTokenId: BigNumberish,
+    outComponentIds: BigNumberish[],
+    outAmounts: BigNumberish[],
+    inComponentIds: BigNumberish[],
+    inAmounts: BigNumberish[],
+    oldVersion: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  manager(overrides?: CallOverrides): Promise<string>;
+
   mintM4mNFT(
     owner: string,
     componentIds: BigNumberish[],
     amounts: BigNumberish[],
     sig: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  onERC1155BatchReceived(
+    arg0: string,
+    arg1: string,
+    arg2: BigNumberish[],
+    arg3: BigNumberish[],
+    arg4: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  onERC1155Received(
+    arg0: string,
+    arg1: string,
+    arg2: BigNumberish,
+    arg3: BigNumberish,
+    arg4: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -194,6 +338,11 @@ export interface Zip extends BaseContract {
 
   simpleM4mNFT(overrides?: CallOverrides): Promise<string>;
 
+  supportsInterface(
+    interfaceId: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   transferOwnership(
     newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -207,6 +356,27 @@ export interface Zip extends BaseContract {
   callStatic: {
     baseURI(overrides?: CallOverrides): Promise<string>;
 
+    changeComponents(
+      m4mTokenId: BigNumberish,
+      outComponentIds: BigNumberish[],
+      outAmounts: BigNumberish[],
+      inComponentIds: BigNumberish[],
+      inAmounts: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    changeComponentsAndRecordVersion(
+      m4mTokenId: BigNumberish,
+      outComponentIds: BigNumberish[],
+      outAmounts: BigNumberish[],
+      inComponentIds: BigNumberish[],
+      inAmounts: BigNumberish[],
+      oldVersion: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    manager(overrides?: CallOverrides): Promise<string>;
+
     mintM4mNFT(
       owner: string,
       componentIds: BigNumberish[],
@@ -214,6 +384,24 @@ export interface Zip extends BaseContract {
       sig: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    onERC1155BatchReceived(
+      arg0: string,
+      arg1: string,
+      arg2: BigNumberish[],
+      arg3: BigNumberish[],
+      arg4: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    onERC1155Received(
+      arg0: string,
+      arg1: string,
+      arg2: BigNumberish,
+      arg3: BigNumberish,
+      arg4: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     onERC721Received(
       arg0: string,
@@ -230,6 +418,11 @@ export interface Zip extends BaseContract {
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     simpleM4mNFT(overrides?: CallOverrides): Promise<string>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     transferOwnership(
       newOwner: string,
@@ -253,11 +446,50 @@ export interface Zip extends BaseContract {
   estimateGas: {
     baseURI(overrides?: CallOverrides): Promise<BigNumber>;
 
+    changeComponents(
+      m4mTokenId: BigNumberish,
+      outComponentIds: BigNumberish[],
+      outAmounts: BigNumberish[],
+      inComponentIds: BigNumberish[],
+      inAmounts: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    changeComponentsAndRecordVersion(
+      m4mTokenId: BigNumberish,
+      outComponentIds: BigNumberish[],
+      outAmounts: BigNumberish[],
+      inComponentIds: BigNumberish[],
+      inAmounts: BigNumberish[],
+      oldVersion: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    manager(overrides?: CallOverrides): Promise<BigNumber>;
+
     mintM4mNFT(
       owner: string,
       componentIds: BigNumberish[],
       amounts: BigNumberish[],
       sig: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    onERC1155BatchReceived(
+      arg0: string,
+      arg1: string,
+      arg2: BigNumberish[],
+      arg3: BigNumberish[],
+      arg4: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    onERC1155Received(
+      arg0: string,
+      arg1: string,
+      arg2: BigNumberish,
+      arg3: BigNumberish,
+      arg4: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -279,6 +511,11 @@ export interface Zip extends BaseContract {
 
     simpleM4mNFT(overrides?: CallOverrides): Promise<BigNumber>;
 
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -293,11 +530,50 @@ export interface Zip extends BaseContract {
   populateTransaction: {
     baseURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    changeComponents(
+      m4mTokenId: BigNumberish,
+      outComponentIds: BigNumberish[],
+      outAmounts: BigNumberish[],
+      inComponentIds: BigNumberish[],
+      inAmounts: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    changeComponentsAndRecordVersion(
+      m4mTokenId: BigNumberish,
+      outComponentIds: BigNumberish[],
+      outAmounts: BigNumberish[],
+      inComponentIds: BigNumberish[],
+      inAmounts: BigNumberish[],
+      oldVersion: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    manager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     mintM4mNFT(
       owner: string,
       componentIds: BigNumberish[],
       amounts: BigNumberish[],
       sig: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    onERC1155BatchReceived(
+      arg0: string,
+      arg1: string,
+      arg2: BigNumberish[],
+      arg3: BigNumberish[],
+      arg4: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    onERC1155Received(
+      arg0: string,
+      arg1: string,
+      arg2: BigNumberish,
+      arg3: BigNumberish,
+      arg4: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -318,6 +594,11 @@ export interface Zip extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     simpleM4mNFT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,
