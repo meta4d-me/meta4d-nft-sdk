@@ -145,6 +145,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IM4mBaggage__factory>;
     getContractFactory(
+      name: "IM4mBaggageWithoutRole",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IM4mBaggageWithoutRole__factory>;
+    getContractFactory(
       name: "IM4mComponents",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IM4mComponents__factory>;
@@ -173,6 +177,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.M4mBaggage__factory>;
     getContractFactory(
+      name: "M4mBaggageWithoutRole",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.M4mBaggageWithoutRole__factory>;
+    getContractFactory(
       name: "M4mComponent",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.M4mComponent__factory>;
@@ -197,6 +205,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SimpleM4mNFT__factory>;
     getContractFactory(
+      name: "SimpleM4mNFTV2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SimpleM4mNFTV2__factory>;
+    getContractFactory(
       name: "Manager",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Manager__factory>;
@@ -204,6 +216,10 @@ declare module "hardhat/types/runtime" {
       name: "Zip",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Zip__factory>;
+    getContractFactory(
+      name: "ZipV2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ZipV2__factory>;
 
     getContractAt(
       name: "OwnableUpgradeable",
@@ -371,6 +387,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IM4mBaggage>;
     getContractAt(
+      name: "IM4mBaggageWithoutRole",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IM4mBaggageWithoutRole>;
+    getContractAt(
       name: "IM4mComponents",
       address: string,
       signer?: ethers.Signer
@@ -406,6 +427,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.M4mBaggage>;
     getContractAt(
+      name: "M4mBaggageWithoutRole",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.M4mBaggageWithoutRole>;
+    getContractAt(
       name: "M4mComponent",
       address: string,
       signer?: ethers.Signer
@@ -436,6 +462,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.SimpleM4mNFT>;
     getContractAt(
+      name: "SimpleM4mNFTV2",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SimpleM4mNFTV2>;
+    getContractAt(
       name: "Manager",
       address: string,
       signer?: ethers.Signer
@@ -445,6 +476,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Zip>;
+    getContractAt(
+      name: "ZipV2",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ZipV2>;
 
     // default types
     getContractFactory(

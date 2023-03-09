@@ -38,6 +38,7 @@ export interface IM4mBaggageInterface extends utils.Interface {
     "gameEnd(uint256,uint256[],uint256[],uint256[],uint256[],bytes,bytes)": FunctionFragment;
     "getGameOwner(uint256)": FunctionFragment;
     "isGameSettled(address,uint256,uint256,string)": FunctionFragment;
+    "lockedNFTs(uint256)": FunctionFragment;
     "setGameSignerAndOperator(uint256,address,address)": FunctionFragment;
     "transferOperator(uint256,address)": FunctionFragment;
     "transferSigner(uint256,address)": FunctionFragment;
@@ -68,6 +69,10 @@ export interface IM4mBaggageInterface extends utils.Interface {
     values: [string, BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "lockedNFTs",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setGameSignerAndOperator",
     values: [BigNumberish, string, string]
   ): string;
@@ -90,6 +95,7 @@ export interface IM4mBaggageInterface extends utils.Interface {
     functionFragment: "isGameSettled",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "lockedNFTs", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setGameSignerAndOperator",
     data: BytesLike
@@ -205,6 +211,17 @@ export interface IM4mBaggage extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    lockedNFTs(
+      m4mTokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, string] & {
+        owner: string;
+        gameId: BigNumber;
+        uuid: string;
+      }
+    >;
+
     setGameSignerAndOperator(
       gameId: BigNumberish,
       gameSigner: string,
@@ -258,6 +275,17 @@ export interface IM4mBaggage extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  lockedNFTs(
+    m4mTokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, BigNumber, string] & {
+      owner: string;
+      gameId: BigNumber;
+      uuid: string;
+    }
+  >;
+
   setGameSignerAndOperator(
     gameId: BigNumberish,
     gameSigner: string,
@@ -310,6 +338,17 @@ export interface IM4mBaggage extends BaseContract {
       uuid: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    lockedNFTs(
+      m4mTokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, string] & {
+        owner: string;
+        gameId: BigNumber;
+        uuid: string;
+      }
+    >;
 
     setGameSignerAndOperator(
       gameId: BigNumberish,
@@ -391,6 +430,11 @@ export interface IM4mBaggage extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    lockedNFTs(
+      m4mTokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     setGameSignerAndOperator(
       gameId: BigNumberish,
       gameSigner: string,
@@ -443,6 +487,11 @@ export interface IM4mBaggage extends BaseContract {
       gameId: BigNumberish,
       uuid: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    lockedNFTs(
+      m4mTokenId: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     setGameSignerAndOperator(

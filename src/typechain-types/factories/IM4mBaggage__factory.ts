@@ -255,6 +255,35 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "m4mTokenId",
+        type: "uint256",
+      },
+    ],
+    name: "lockedNFTs",
+    outputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "gameId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "uuid",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "gameId",
         type: "uint256",
       },
