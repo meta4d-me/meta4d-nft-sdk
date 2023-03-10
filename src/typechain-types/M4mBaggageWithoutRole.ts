@@ -55,7 +55,7 @@ export interface M4mBaggageWithoutRoleInterface extends utils.Interface {
     "transferOperator(uint256,address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "transferSigner(uint256,address)": FunctionFragment;
-    "unlockComponents(uint256,uint256[],bytes,bytes)": FunctionFragment;
+    "unlockComponents(uint256,uint256,uint256[],bytes,bytes)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -152,7 +152,7 @@ export interface M4mBaggageWithoutRoleInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "unlockComponents",
-    values: [BigNumberish, BigNumberish[], BytesLike, BytesLike]
+    values: [BigNumberish, BigNumberish, BigNumberish[], BytesLike, BytesLike]
   ): string;
 
   decodeFunctionResult(functionFragment: "gameBegin", data: BytesLike): Result;
@@ -462,6 +462,7 @@ export interface M4mBaggageWithoutRole extends BaseContract {
 
     unlockComponents(
       m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
       outComponentIds: BigNumberish[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
@@ -620,6 +621,7 @@ export interface M4mBaggageWithoutRole extends BaseContract {
 
   unlockComponents(
     m4mTokenId: BigNumberish,
+    nonce: BigNumberish,
     outComponentIds: BigNumberish[],
     operatorSig: BytesLike,
     gameSignerSig: BytesLike,
@@ -773,6 +775,7 @@ export interface M4mBaggageWithoutRole extends BaseContract {
 
     unlockComponents(
       m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
       outComponentIds: BigNumberish[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
@@ -958,6 +961,7 @@ export interface M4mBaggageWithoutRole extends BaseContract {
 
     unlockComponents(
       m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
       outComponentIds: BigNumberish[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
@@ -1105,6 +1109,7 @@ export interface M4mBaggageWithoutRole extends BaseContract {
 
     unlockComponents(
       m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
       outComponentIds: BigNumberish[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,

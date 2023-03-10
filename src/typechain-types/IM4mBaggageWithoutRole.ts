@@ -24,7 +24,7 @@ export interface IM4mBaggageWithoutRoleInterface extends utils.Interface {
     "lockedComponents(uint256,uint256)": FunctionFragment;
     "lockedEmptyNFTs(uint256)": FunctionFragment;
     "settleLoots(uint256,uint256,uint256[],uint256[],uint256[],uint256[],bytes,bytes)": FunctionFragment;
-    "unlockComponents(uint256,uint256[],bytes,bytes)": FunctionFragment;
+    "unlockComponents(uint256,uint256,uint256[],bytes,bytes)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -54,7 +54,7 @@ export interface IM4mBaggageWithoutRoleInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "unlockComponents",
-    values: [BigNumberish, BigNumberish[], BytesLike, BytesLike]
+    values: [BigNumberish, BigNumberish, BigNumberish[], BytesLike, BytesLike]
   ): string;
 
   decodeFunctionResult(
@@ -148,6 +148,7 @@ export interface IM4mBaggageWithoutRole extends BaseContract {
 
     unlockComponents(
       m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
       outComponentIds: BigNumberish[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
@@ -194,6 +195,7 @@ export interface IM4mBaggageWithoutRole extends BaseContract {
 
   unlockComponents(
     m4mTokenId: BigNumberish,
+    nonce: BigNumberish,
     outComponentIds: BigNumberish[],
     operatorSig: BytesLike,
     gameSignerSig: BytesLike,
@@ -240,6 +242,7 @@ export interface IM4mBaggageWithoutRole extends BaseContract {
 
     unlockComponents(
       m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
       outComponentIds: BigNumberish[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
@@ -283,6 +286,7 @@ export interface IM4mBaggageWithoutRole extends BaseContract {
 
     unlockComponents(
       m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
       outComponentIds: BigNumberish[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
@@ -324,6 +328,7 @@ export interface IM4mBaggageWithoutRole extends BaseContract {
 
     unlockComponents(
       m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
       outComponentIds: BigNumberish[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
