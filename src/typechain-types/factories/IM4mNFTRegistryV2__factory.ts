@@ -66,7 +66,7 @@ const _abi = [
     name: "components",
     outputs: [
       {
-        internalType: "contract IM4mComponents",
+        internalType: "contract IM4mComponentsV2",
         name: "",
         type: "address",
       },

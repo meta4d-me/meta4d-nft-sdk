@@ -152,6 +152,66 @@ const _abi = [
         type: "uint256",
       },
       {
+        components: [
+          {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "prepare",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "symbol",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IM4mComponentsV2.PrepareAndMintParam[]",
+        name: "params",
+        type: "tuple[]",
+      },
+      {
+        internalType: "bytes",
+        name: "operatorSig",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "gameSignerSig",
+        type: "bytes",
+      },
+    ],
+    name: "settleNewLoots",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "m4mTokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "nonce",
+        type: "uint256",
+      },
+      {
         internalType: "uint256[]",
         name: "outComponentIds",
         type: "uint256[]",

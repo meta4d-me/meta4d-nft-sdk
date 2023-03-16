@@ -153,6 +153,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IM4mComponents__factory>;
     getContractFactory(
+      name: "IM4mComponentsV2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IM4mComponentsV2__factory>;
+    getContractFactory(
       name: "IM4mDAO",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IM4mDAO__factory>;
@@ -184,6 +188,10 @@ declare module "hardhat/types/runtime" {
       name: "M4mComponent",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.M4mComponent__factory>;
+    getContractFactory(
+      name: "M4mComponentV2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.M4mComponentV2__factory>;
     getContractFactory(
       name: "M4mDao",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -397,6 +405,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IM4mComponents>;
     getContractAt(
+      name: "IM4mComponentsV2",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IM4mComponentsV2>;
+    getContractAt(
       name: "IM4mDAO",
       address: string,
       signer?: ethers.Signer
@@ -436,6 +449,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.M4mComponent>;
+    getContractAt(
+      name: "M4mComponentV2",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.M4mComponentV2>;
     getContractAt(
       name: "M4mDao",
       address: string,

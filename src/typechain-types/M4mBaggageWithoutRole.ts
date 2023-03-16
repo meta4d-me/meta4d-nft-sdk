@@ -31,6 +31,30 @@ export declare namespace IM4mBaggage {
   };
 }
 
+export declare namespace IM4mComponentsV2 {
+  export type PrepareAndMintParamStruct = {
+    tokenId: BigNumberish;
+    prepare: boolean;
+    name: string;
+    symbol: string;
+    amount: BigNumberish;
+  };
+
+  export type PrepareAndMintParamStructOutput = [
+    BigNumber,
+    boolean,
+    string,
+    string,
+    BigNumber
+  ] & {
+    tokenId: BigNumber;
+    prepare: boolean;
+    name: string;
+    symbol: string;
+    amount: BigNumber;
+  };
+}
+
 export interface M4mBaggageWithoutRoleInterface extends utils.Interface {
   contractName: "M4mBaggageWithoutRole";
   functions: {
@@ -51,6 +75,7 @@ export interface M4mBaggageWithoutRoleInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "setGameSignerAndOperator(uint256,address,address)": FunctionFragment;
     "settleLoots(uint256,uint256,uint256[],uint256[],uint256[],uint256[],bytes,bytes)": FunctionFragment;
+    "settleNewLoots(uint256,uint256,(uint256,bool,string,string,uint256)[],bytes,bytes)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferOperator(uint256,address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -135,6 +160,16 @@ export interface M4mBaggageWithoutRoleInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "settleNewLoots",
+    values: [
+      BigNumberish,
+      BigNumberish,
+      IM4mComponentsV2.PrepareAndMintParamStruct[],
+      BytesLike,
+      BytesLike
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
@@ -203,6 +238,10 @@ export interface M4mBaggageWithoutRoleInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "settleLoots",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "settleNewLoots",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -438,6 +477,15 @@ export interface M4mBaggageWithoutRole extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    settleNewLoots(
+      m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
+      params: IM4mComponentsV2.PrepareAndMintParamStruct[],
+      operatorSig: BytesLike,
+      gameSignerSig: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -597,6 +645,15 @@ export interface M4mBaggageWithoutRole extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  settleNewLoots(
+    m4mTokenId: BigNumberish,
+    nonce: BigNumberish,
+    params: IM4mComponentsV2.PrepareAndMintParamStruct[],
+    operatorSig: BytesLike,
+    gameSignerSig: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -746,6 +803,15 @@ export interface M4mBaggageWithoutRole extends BaseContract {
       lootAmounts: BigNumberish[],
       lostIds: BigNumberish[],
       lostAmounts: BigNumberish[],
+      operatorSig: BytesLike,
+      gameSignerSig: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    settleNewLoots(
+      m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
+      params: IM4mComponentsV2.PrepareAndMintParamStruct[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
       overrides?: CallOverrides
@@ -937,6 +1003,15 @@ export interface M4mBaggageWithoutRole extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    settleNewLoots(
+      m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
+      params: IM4mComponentsV2.PrepareAndMintParamStruct[],
+      operatorSig: BytesLike,
+      gameSignerSig: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1080,6 +1155,15 @@ export interface M4mBaggageWithoutRole extends BaseContract {
       lootAmounts: BigNumberish[],
       lostIds: BigNumberish[],
       lostAmounts: BigNumberish[],
+      operatorSig: BytesLike,
+      gameSignerSig: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    settleNewLoots(
+      m4mTokenId: BigNumberish,
+      nonce: BigNumberish,
+      params: IM4mComponentsV2.PrepareAndMintParamStruct[],
       operatorSig: BytesLike,
       gameSignerSig: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
